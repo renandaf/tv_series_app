@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tv_series_app/common/constants.dart';
-import 'package:tv_series_app/pages/search_page.dart';
-import 'package:tv_series_app/widgets/card_movie_list.dart';
-import 'package:tv_series_app/widgets/drawer.dart';
+import 'package:tv_series_app/presentation/pages/search_page.dart';
+import 'package:tv_series_app/presentation/widgets/card_movie_list.dart';
+import 'package:tv_series_app/presentation/widgets/drawer.dart';
 
 class AiringTodayPage extends StatelessWidget {
   static const routeName = '/airing_today';
