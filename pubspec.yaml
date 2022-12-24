@@ -50,6 +50,14 @@ dependencies:
   rename: ^2.0.1
   sizer: ^2.0.15
 
+  movies:
+    path: movies
+  series:
+    path: series
+  core:
+    path: core
+  http: ^0.13.5
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
