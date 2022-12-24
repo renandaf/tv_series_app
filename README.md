@@ -1,6 +1,6 @@
 <h2>MOVIE AND TV SERIES APP</h2>
 
-Sebuah aplikasi yang menggunakan bahasa pemrograman flutter untuk menampilkan daftar film dan seri tv. 
+Sebuah aplikasi mobile yang menggunakan bahasa pemrograman **Flutter** untuk menampilkan daftar film dan seri tv. 
 Aplikasi ini dibuat sebagai submission dari kelas **Dicoding Flutter Developer Expert**
 
 API : https://www.themoviedb.org/documentation/api
