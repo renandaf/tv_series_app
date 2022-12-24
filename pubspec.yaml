@@ -57,6 +57,7 @@ dependencies:
   core:
     path: core
   http: ^0.13.5
+  integration_test: ^0.8.1
 
 dev_dependencies:
   flutter_test:
@@ -84,6 +85,7 @@ flutter:
   assets:
       - assets/video.png
       - assets/default.png
+      - certificates/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
