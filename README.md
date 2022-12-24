@@ -1,16 +1,9 @@
-# tv_series_app
+<h2>MOVIE AND TV SERIES APP</h2>
 
-A new Flutter project.
+Sebuah aplikasi mobile yang menggunakan bahasa pemrograman **Flutter** untuk menampilkan daftar film dan seri tv. 
+<br>
+Aplikasi ini dibuat sebagai submission dari kelas **Dicoding Flutter Developer Expert**
 
-## Getting Started
+API : https://www.themoviedb.org/documentation/api
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+[![Codemagic build status](https://api.codemagic.io/apps/63a66c08e4c86de17e949e48/63a66c08e4c86de17e949e47/status_badge.svg)](https://codemagic.io/apps/63a66c08e4c86de17e949e48/63a66c08e4c86de17e949e47/latest_build)
