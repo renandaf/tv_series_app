@@ -37,7 +37,7 @@ class _HomePageSeriesState extends State<HomePageSeries> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const SafeArea(child: CustomDrawer()),
+      drawer: const CustomDrawer(),
       appBar: AppBar(
         centerTitle: true,
         elevation: 0,

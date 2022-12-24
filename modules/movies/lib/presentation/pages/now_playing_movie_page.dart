@@ -26,7 +26,7 @@ class _NowPlayingMoviePageState extends State<NowPlayingMoviePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: const SafeArea(child: CustomDrawer()),
+        drawer: const CustomDrawer(),
         appBar: AppBar(
           centerTitle: true,
           elevation: 0,

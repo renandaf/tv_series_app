@@ -14,7 +14,7 @@
 //     () {
 //       IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
-//       testWidgets('start', (tester) async {
+//       testWidgets('App flow', (tester) async {
 //         app.main();
 //         await tester.pumpAndSettle();
 
@@ -31,7 +31,7 @@
 //         await tester.tap(find.byIcon(Icons.arrow_back));
 //         await tester.pumpAndSettle();
 //         expect(find.byType(HomePageSeries), findsOneWidget);
-//         await tester.tap(find.byType(CustomDrawer));
+//         await tester.tap(find.byKey(const Key("drawer")));
 //         await tester.pumpAndSettle();
 //       });
 //     },
