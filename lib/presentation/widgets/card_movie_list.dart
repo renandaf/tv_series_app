@@ -1,74 +1,91 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:sizer/sizer.dart';
 import 'package:tv_series_app/common/constants.dart';
+import 'package:tv_series_app/domain/entities/movie.dart';
+import 'package:tv_series_app/domain/usecases/get_movie_detail.dart';
+import 'package:tv_series_app/presentation/pages/detail_movie_page.dart';
 
-class CardList extends StatelessWidget {
-  const CardList({super.key});
+class MovieList extends StatelessWidget {
+  final Movie movie;
+  const MovieList(this.movie, {super.key});
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {},
-      child: Container(
+    return Sizer(builder: (context, orientation, deviceType) {
+      return InkWell(
+        onTap: () {
+          Navigator.pushNamed(context, DetailMoviePage.routeName,
+              arguments: movie.id);
+        },
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              margin: EdgeInsets.only(bottom: 5),
-              width: 100,
+              margin: const EdgeInsets.only(bottom: 5),
+              width: 75.sp,
               height: 120,
-              child: Image.network(
-                "https://www.themoviedb.org/t/p/original/kY0BogCM8SkNJ0MNiHB3VTM86Tz.jpg",
+              child: CachedNetworkImage(
+                imageUrl: GetMovieDetail.posterImage(movie.posterPath!),
                 fit: BoxFit.cover,
               ),
             ),
-            SizedBox(
-              width: 10,
+            const SizedBox(
+              width: 5,
             ),
             Column(
+              mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  "Movie Name (2003)",
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: kH6,
-                ),
                 SizedBox(
-                  height: 8,
-                ),
-                RatingBarIndicator(
-                  rating: 4,
-                  itemCount: 5,
-                  itemBuilder: (context, index) => Icon(
-                    Icons.star,
-                    color: kYellow,
+                  width: 190.sp,
+                  child: Text(
+                    movie.title!,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: kH6,
                   ),
-                  itemSize: 18,
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Row(
+                  children: [
+                    RatingBarIndicator(
+                      rating: movie.voteAverage! / 2.toDouble(),
+                      itemCount: 5,
+                      itemBuilder: (context, index) => const Icon(
+                        Icons.star,
+                        color: kYellow,
+                      ),
+                      itemSize: 18,
+                    ),
+                    Text(
+                      " ${movie.voteAverage} / 10",
+                      style: kSmall,
+                    )
+                  ],
+                ),
+                const SizedBox(
+                  height: 5,
                 ),
                 SizedBox(
-                  height: 8,
-                ),
-                Text(
-                  "Action, Horror",
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: kSmall,
-                ),
-                SizedBox(
-                  height: 2,
-                ),
-                Text(
-                  "Season 3 Episode 5",
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: kSmall,
-                ),
+                  width: 190.sp,
+                  child: Text(
+                    movie.overview!.length < 2
+                        ? "No Overview"
+                        : movie.overview!,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: kBody,
+                  ),
+                )
               ],
             )
           ],
         ),
-      ),
-    );
+      );
+    });
   }
 }

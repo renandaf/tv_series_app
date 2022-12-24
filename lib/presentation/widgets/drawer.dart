@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:tv_series_app/common/constants.dart';
-import 'package:tv_series_app/pages/airing_today_page.dart';
-import 'package:tv_series_app/pages/home_page.dart';
-import 'package:tv_series_app/pages/new_release_page.dart';
-import 'package:tv_series_app/pages/top_rated_series_page.dart';
-import 'package:tv_series_app/pages/watchlist_page.dart';
+import 'package:tv_series_app/presentation/pages/home_movies_page.dart';
+import 'package:tv_series_app/presentation/pages/now_playing_movie_page.dart';
+import 'package:tv_series_app/presentation/pages/on_air_series_page.dart';
+import 'package:tv_series_app/presentation/pages/home_series_page.dart';
+import 'package:tv_series_app/presentation/pages/popular_movie_page.dart';
+import 'package:tv_series_app/presentation/pages/popular_series_page.dart';
+import 'package:tv_series_app/presentation/pages/top_rated_movie_page.dart';
+import 'package:tv_series_app/presentation/pages/top_rated_series_page.dart';
+import 'package:tv_series_app/presentation/pages/watchlist_page.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({super.key});
@@ -13,90 +17,145 @@ class CustomDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       backgroundColor: Colors.black,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            margin: EdgeInsets.only(left: 20),
-            child: Text(
-              "Menu",
-              style: kH3,
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              margin: const EdgeInsets.only(left: 20),
+              child: Text(
+                "Menu",
+                style: kH3,
+              ),
             ),
-          ),
-          Divider(),
-          ListTile(
-            leading: Icon(
-              Icons.home_outlined,
-              color: Colors.white.withOpacity(0.9),
+            const Divider(),
+            ListTile(
+              trailing: const Icon(Icons.arrow_drop_down),
+              title: Text(
+                'Movies',
+                style: TextStyle(
+                    color: Colors.white.withOpacity(0.9), fontSize: 20),
+              ),
+              onTap: () {
+                Navigator.pushReplacementNamed(
+                    context, HomePageMovies.routeName);
+              },
             ),
-            title: Text(
-              'Home',
-              style:
-                  TextStyle(color: Colors.white.withOpacity(0.9), fontSize: 16),
+            ListTile(
+              leading: Icon(
+                Icons.favorite_outline,
+                color: Colors.white.withOpacity(0.9),
+              ),
+              title: Text(
+                'Popular',
+                style: TextStyle(
+                    color: Colors.white.withOpacity(0.9), fontSize: 16),
+              ),
+              onTap: () {
+                Navigator.pushReplacementNamed(
+                    context, PopularMoviePage.routeName);
+              },
             ),
-            onTap: () {
-              Navigator.pushReplacementNamed(context, HomePage.routeName);
-            },
-          ),
-          ListTile(
-            leading: Icon(
-              Icons.new_releases_outlined,
-              color: Colors.white.withOpacity(0.9),
+            ListTile(
+              leading: Icon(
+                Icons.today,
+                color: Colors.white.withOpacity(0.9),
+              ),
+              title: Text(
+                'Now Playing',
+                style: TextStyle(
+                    color: Colors.white.withOpacity(0.9), fontSize: 16),
+              ),
+              onTap: () {
+                Navigator.pushReplacementNamed(
+                    context, NowPlayingMoviePage.routeName);
+              },
             ),
-            title: Text(
-              'Latest Release',
-              style:
-                  TextStyle(color: Colors.white.withOpacity(0.9), fontSize: 16),
+            ListTile(
+              leading: Icon(
+                Icons.star_outline,
+                color: Colors.white.withOpacity(0.9),
+              ),
+              title: Text(
+                'Top Rated',
+                style: TextStyle(
+                    color: Colors.white.withOpacity(0.9), fontSize: 16),
+              ),
+              onTap: () {
+                Navigator.pushReplacementNamed(
+                    context, TopRatedMoviePage.routeName);
+              },
             ),
-            onTap: () {
-              Navigator.pushReplacementNamed(context, NewReleasePage.routeName);
-            },
-          ),
-          ListTile(
-            leading: Icon(
-              Icons.today,
-              color: Colors.white.withOpacity(0.9),
+            const Divider(),
+            ListTile(
+              trailing: const Icon(Icons.arrow_drop_down),
+              title: Text(
+                'TV Series',
+                style: TextStyle(
+                    color: Colors.white.withOpacity(0.9), fontSize: 20),
+              ),
+              onTap: () {
+                Navigator.pushReplacementNamed(
+                    context, HomePageSeries.routeName);
+              },
             ),
-            title: Text(
-              'Airing Today',
-              style:
-                  TextStyle(color: Colors.white.withOpacity(0.9), fontSize: 16),
+            ListTile(
+              leading: Icon(
+                Icons.favorite_outline,
+                color: Colors.white.withOpacity(0.9),
+              ),
+              title: Text(
+                'Popular',
+                style: TextStyle(
+                    color: Colors.white.withOpacity(0.9), fontSize: 16),
+              ),
+              onTap: () {
+                Navigator.pushReplacementNamed(context, PopularPage.routeName);
+              },
             ),
-            onTap: () {
-              Navigator.pushReplacementNamed(
-                  context, AiringTodayPage.routeName);
-            },
-          ),
-          ListTile(
-            leading: Icon(
-              Icons.star_outline,
-              color: Colors.white.withOpacity(0.9),
+            ListTile(
+              leading: Icon(
+                Icons.today,
+                color: Colors.white.withOpacity(0.9),
+              ),
+              title: Text(
+                'Airing Today',
+                style: TextStyle(
+                    color: Colors.white.withOpacity(0.9), fontSize: 16),
+              ),
+              onTap: () {
+                Navigator.pushReplacementNamed(context, OnAirPage.routeName);
+              },
             ),
-            title: Text(
-              'Top Rated',
-              style:
-                  TextStyle(color: Colors.white.withOpacity(0.9), fontSize: 16),
+            ListTile(
+              leading: Icon(
+                Icons.star_outline,
+                color: Colors.white.withOpacity(0.9),
+              ),
+              title: Text(
+                'Top Rated',
+                style: TextStyle(
+                    color: Colors.white.withOpacity(0.9), fontSize: 16),
+              ),
+              onTap: () {
+                Navigator.pushReplacementNamed(context, TopRatedPage.routeName);
+              },
             ),
-            onTap: () {
-              Navigator.pushReplacementNamed(context, TopRatedPage.routeName);
-            },
-          ),
-          Divider(),
-          ListTile(
-            leading: Icon(
-              Icons.remove_red_eye_outlined,
-              color: Colors.white.withOpacity(0.9),
+            const Divider(),
+            ListTile(
+              trailing: const Icon(Icons.arrow_forward_ios),
+              title: Text(
+                'Watchlist',
+                style: TextStyle(
+                    color: Colors.white.withOpacity(0.9), fontSize: 20),
+              ),
+              onTap: () {
+                Navigator.pushReplacementNamed(
+                    context, WatchlistPage.routeName);
+              },
             ),
-            title: Text(
-              'Watchlist',
-              style:
-                  TextStyle(color: Colors.white.withOpacity(0.9), fontSize: 16),
-            ),
-            onTap: () {
-              Navigator.pushReplacementNamed(context, WatchlistPage.routeName);
-            },
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

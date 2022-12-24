@@ -1,0 +1,47 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
+import 'package:tv_series_app/common/constants.dart';
+import 'package:tv_series_app/domain/entities/series.dart';
+import 'package:tv_series_app/domain/usecases/get_series_detail.dart';
+import 'package:tv_series_app/presentation/pages/detail_series_page.dart';
+
+class CardSeries extends StatelessWidget {
+  final Series series;
+  const CardSeries(this.series, {super.key});
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 130,
+      margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 8),
+      child: InkWell(
+        onTap: () {
+          Navigator.pushNamed(
+            context,
+            DetailPage.routeName,
+            arguments: series.id,
+          );
+        },
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              margin: const EdgeInsets.only(bottom: 5),
+              width: 130,
+              height: 170,
+              child: CachedNetworkImage(
+                imageUrl: GetSeriesDetail.posterImage(series.posterPath!),
+                fit: BoxFit.cover,
+              ),
+            ),
+            Text(
+              series.name,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: kSub,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
