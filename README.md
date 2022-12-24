@@ -4,6 +4,6 @@ Sebuah aplikasi mobile yang menggunakan bahasa pemrograman **Flutter** untuk men
 <br>
 Aplikasi ini dibuat sebagai submission dari kelas **Dicoding Flutter Developer Expert**
 
-API : https://www.themoviedb.org/documentation/api
+API : https://developers.themoviedb.org/3
 
 [![Codemagic build status](https://api.codemagic.io/apps/63a66c08e4c86de17e949e48/63a66c08e4c86de17e949e47/status_badge.svg)](https://codemagic.io/apps/63a66c08e4c86de17e949e48/63a66c08e4c86de17e949e47/latest_build)
