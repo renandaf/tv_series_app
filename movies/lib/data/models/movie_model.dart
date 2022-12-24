@@ -34,17 +34,17 @@ class MovieModel extends Equatable {
 
   factory MovieModel.fromJson(Map<String, dynamic> json) => MovieModel(
         adult: json["adult"],
-        backdropPath: json["backdrop_path"],
+        backdropPath: json["backdrop_path"] ?? "",
         genreIds: List<int>.from(json["genre_ids"].map((x) => x)),
         id: json["id"],
         originalTitle: json["original_title"],
         overview: json["overview"],
         popularity: json["popularity"].toDouble(),
-        posterPath: json["poster_path"],
-        releaseDate: json["release_date"],
+        posterPath: json["poster_path"] ?? "",
+        releaseDate: json["release_date"] ?? "",
         title: json["title"],
         video: json["video"],
-        voteAverage: json["vote_average"].toDouble(),
+        voteAverage: json["vote_average"].toDouble() ?? 0,
         voteCount: json["vote_count"],
       );
 

@@ -90,6 +90,11 @@ void init() {
       locator(),
     ),
   );
+  locator.registerFactory(
+    () => SeasonDetailNotifier(
+      locator(),
+    ),
+  );
   // use case
 
   locator.registerLazySingleton(() => GetTopRatedSeries(locator()));
@@ -113,6 +118,7 @@ void init() {
   locator.registerLazySingleton(() => SaveMovieWatchlist(locator()));
   locator.registerLazySingleton(() => RemoveMovieWatchlist(locator()));
   locator.registerLazySingleton(() => GetWatchlistMovies(locator()));
+  locator.registerLazySingleton(() => GetSeason(locator()));
 
   // repository
   locator.registerLazySingleton<SeriesRepository>(

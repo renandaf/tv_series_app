@@ -3,10 +3,8 @@ import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
-import 'package:series/domain/usecases/get_series_detail.dart';
-import 'package:series/presentation/provider/detail_series_provider.dart';
-import 'package:series/presentation/provider/watchlist_provider.dart';
 import 'package:series/presentation/widgets/card_series.dart';
+import 'package:series/series.dart';
 
 class DetailPage extends StatefulWidget {
   final int id;
@@ -82,7 +80,7 @@ class _DetailPageState extends State<DetailPage> {
                     ),
                   ),
                   SizedBox(
-                    height: (data.series.overview!.length > 290) ? 1100 : 900,
+                    height: (data.series.overview!.length > 290) ? 1200 : 1000,
                     child: Container(
                         decoration: const BoxDecoration(
                           gradient: LinearGradient(
@@ -235,32 +233,69 @@ class _DetailPageState extends State<DetailPage> {
                                       ),
                                     ]),
                               ),
-                              // Divider(
-                              //   indent: 30,
-                              //   endIndent: 30,
-                              //   color: Colors.white.withOpacity(0.2),
-                              // ),
-                              // Padding(
-                              //   padding:
-                              //       const EdgeInsets.symmetric(horizontal: 30),
-                              //   child: InkWell(
-                              //     onTap: () {},
-                              //     child: Row(
-                              //       mainAxisAlignment:
-                              //           MainAxisAlignment.spaceBetween,
-                              //       children: [
-                              //         Text(
-                              //           "All Episode",
-                              //           style: kH6,
-                              //         ),
-                              //         Icon(
-                              //           Icons.arrow_forward_ios,
-                              //           size: 20,
-                              //         )
-                              //       ],
-                              //     ),
-                              //   ),
-                              // ),
+                              Divider(
+                                indent: 30,
+                                endIndent: 30,
+                                color: Colors.white.withOpacity(0.2),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 30),
+                                child: Text(
+                                  "All Season",
+                                  style: kH6,
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              SizedBox(
+                                height: 40,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 30,
+                                  ),
+                                  child: ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: data.series.numberOfSeasons,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 5),
+                                        child: InkWell(
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      SeasonPage(
+                                                    id: data.series.id!,
+                                                    seasonNumber: (index + 1),
+                                                  ),
+                                                ));
+                                          },
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                                border: Border.all(
+                                                    color: kYellow, width: 2)),
+                                            width: 110,
+                                            child: Center(
+                                              child: Text(
+                                                "Season ${index + 1}",
+                                                style: kH6Yellow,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
                               Divider(
                                 indent: 30,
                                 endIndent: 30,

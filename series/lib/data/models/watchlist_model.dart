@@ -26,9 +26,9 @@ class SeriesTable extends Equatable {
   factory SeriesTable.fromMap(Map<String, dynamic> map) => SeriesTable(
         id: map['id'],
         title: map['title'],
-        posterPath: map['posterPath'],
-        voteAverage: map['voteAverage'],
-        overview: map['overview'],
+        posterPath: map['posterPath'] ?? "",
+        voteAverage: map['voteAverage'] ?? 0,
+        overview: map['overview'] ?? "",
       );
 
   Map<String, dynamic> toJson() => {

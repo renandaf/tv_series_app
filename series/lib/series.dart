@@ -6,6 +6,7 @@ export 'presentation/pages/on_air_series_page.dart';
 export 'presentation/pages/popular_series_page.dart';
 export 'presentation/pages/search_series_page.dart';
 export 'presentation/pages/top_rated_series_page.dart';
+export 'presentation/pages/episode_detail_page.dart';
 
 export 'presentation/widgets/watchlist_card.dart';
 
@@ -16,6 +17,7 @@ export 'presentation/provider/search_series_provider.dart';
 export 'presentation/provider/series_list_notifier.dart';
 export 'presentation/provider/top_rated_series_provider.dart';
 export 'presentation/provider/watchlist_provider.dart';
+export 'presentation/provider/season_detail_provider.dart';
 
 export 'data/models/watchlist_model.dart';
 
@@ -29,6 +31,7 @@ export 'domain/usecases/get_watchlist.dart';
 export 'domain/usecases/get_watchlist_status.dart';
 export 'domain/usecases/remove_watchlist.dart';
 export 'domain/usecases/search_series.dart';
+export 'domain/usecases/get_season.dart';
 
 export 'domain/repositories/series_repository.dart';
 

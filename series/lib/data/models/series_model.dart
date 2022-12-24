@@ -32,17 +32,17 @@ class SeriesModel extends Equatable {
 
   factory SeriesModel.fromJson(Map<String, dynamic> json) => SeriesModel(
         id: json['id'],
-        backdropPath: json["backdrop_path"],
+        backdropPath: json["backdrop_path"] ?? "",
         firstAirDate: json["first_air_date"],
         name: json["name"],
         originCountry: List<String>.from(json["origin_country"].map((x) => x)),
         originalLanguage: json["original_language"],
         originalName: json["original_name"],
-        overview: json["overview"],
+        overview: json["overview"] ?? "",
         popularity: json["popularity"],
-        posterPath: json["poster_path"],
+        posterPath: json["poster_path"] ?? "",
         genreIds: List<int>.from(json["genre_ids"].map((x) => x)),
-        voteAverage: json["vote_average"],
+        voteAverage: json["vote_average"] ?? 0,
       );
 
   Map<String, dynamic> toJson() => {

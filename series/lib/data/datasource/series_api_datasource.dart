@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:core/core.dart';
 import 'package:http/http.dart' as http;
+import 'package:series/data/models/season_detail.dart';
 import 'package:series/data/models/series_detail_model.dart';
 import 'package:series/data/models/series_model.dart';
 import 'package:series/data/models/series_response.dart';
@@ -12,6 +13,7 @@ abstract class SeriesAPI {
   Future<SeriesDetail> getSeriesDetail(int id);
   Future<List<SeriesModel>> getSeriesRecommendations(int id);
   Future<List<SeriesModel>> searchSeries(String query);
+  Future<SeasonDetail> getSeasonDetail(int id, int season);
 }
 
 class SeriesAPIImpl implements SeriesAPI {
@@ -21,6 +23,18 @@ class SeriesAPIImpl implements SeriesAPI {
   final http.Client client;
 
   SeriesAPIImpl({required this.client});
+
+  @override
+  Future<SeasonDetail> getSeasonDetail(int id, int season) async {
+    final response =
+        await client.get(Uri.parse('$baseUrl/tv/$id/season/$season?$apiKey'));
+
+    if (response.statusCode == 200) {
+      return SeasonDetail.fromJson(json.decode(response.body));
+    } else {
+      throw ServerException();
+    }
+  }
 
   @override
   Future<List<SeriesModel>> getOnAirSeries() async {

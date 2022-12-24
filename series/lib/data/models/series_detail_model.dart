@@ -72,14 +72,14 @@ class SeriesDetail extends Equatable {
         numberOfSeasons: json["number_of_seasons"],
         originCountry: List<String>.from(json["origin_country"].map((x) => x)),
         originalLanguage: json["original_language"],
-        originalName: json["original_name"],
-        overview: json["overview"],
+        originalName: json["original_name"] ?? "",
+        overview: json["overview"] ?? "",
         popularity: json["popularity"].toDouble(),
-        posterPath: json["poster_path"],
+        posterPath: json["poster_path"] ?? "",
         status: json["status"],
         tagline: json["tagline"],
         type: json["type"],
-        voteAverage: json["vote_average"].toDouble(),
+        voteAverage: json["vote_average"].toDouble() ?? 0,
         voteCount: json["vote_count"],
       );
 

@@ -5,6 +5,7 @@ import 'package:series/data/datasource/series_api_datasource.dart';
 import 'package:series/data/datasource/series_local_datasource.dart';
 import 'package:series/data/models/watchlist_model.dart';
 import 'package:series/domain/entities/detail.dart';
+import 'package:series/domain/entities/season.dart';
 import 'package:series/domain/entities/series.dart';
 import 'package:series/domain/repositories/series_repository.dart';
 
@@ -16,6 +17,18 @@ class SeriesRepositoryImpl implements SeriesRepository {
     required this.remoteDataSource,
     required this.localDataSource,
   });
+
+  @override
+  Future<Either<Failure, Season>> getSeasonDetail(int id, int season) async {
+    try {
+      final result = await remoteDataSource.getSeasonDetail(id, season);
+      return Right(result.toEntity());
+    } on ServerException {
+      return const Left(ServerFailure(''));
+    } on SocketException {
+      return const Left(ConnectionFailure('Failed to connect to the network'));
+    }
+  }
 
   @override
   Future<Either<Failure, List<Series>>> getOnAirSeries() async {

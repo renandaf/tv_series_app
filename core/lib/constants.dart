@@ -22,6 +22,11 @@ final TextStyle kH6 = GoogleFonts.poppins(
     fontWeight: FontWeight.w500,
     letterSpacing: 0.15,
     color: Colors.white.withOpacity(0.9));
+final TextStyle kH6Yellow = GoogleFonts.poppins(
+    fontSize: 19,
+    fontWeight: FontWeight.w500,
+    letterSpacing: 0.15,
+    color: kYellow);
 final TextStyle kSub = GoogleFonts.poppins(
     fontSize: 15,
     fontWeight: FontWeight.w400,

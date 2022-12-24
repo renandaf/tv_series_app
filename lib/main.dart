@@ -63,6 +63,9 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(
             create: (_) => injection.locator<NowPlayingMovieNotifier>(),
           ),
+          ChangeNotifierProvider(
+            create: (_) => injection.locator<SeasonDetailNotifier>(),
+          ),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,

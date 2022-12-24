@@ -1,6 +1,7 @@
 import 'package:core/core.dart';
 import 'package:dartz/dartz.dart';
 import 'package:series/domain/entities/detail.dart';
+import 'package:series/domain/entities/season.dart';
 import 'package:series/domain/entities/series.dart';
 
 abstract class SeriesRepository {
@@ -14,4 +15,5 @@ abstract class SeriesRepository {
   Future<Either<Failure, String>> removeWatchlist(Detail series);
   Future<bool> isAddedToWatchlist(int id);
   Future<Either<Failure, List<Detail>>> getWatchlistSeries();
+  Future<Either<Failure, Season>> getSeasonDetail(int id, int season);
 }

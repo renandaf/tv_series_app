@@ -52,7 +52,7 @@ class MovieDetailResponse extends Equatable {
   factory MovieDetailResponse.fromJson(Map<String, dynamic> json) =>
       MovieDetailResponse(
         adult: json["adult"],
-        backdropPath: json["backdrop_path"],
+        backdropPath: json["backdrop_path"] ?? "",
         budget: json["budget"],
         genres: List<GenreModel>.from(
             json["genres"].map((x) => GenreModel.fromJson(x))),
@@ -63,15 +63,15 @@ class MovieDetailResponse extends Equatable {
         originalTitle: json["original_title"],
         overview: json["overview"],
         popularity: json["popularity"].toDouble(),
-        posterPath: json["poster_path"],
-        releaseDate: json["release_date"],
+        posterPath: json["poster_path"] ?? "",
+        releaseDate: json["release_date"] ?? "",
         revenue: json["revenue"],
         runtime: json["runtime"],
         status: json["status"],
         tagline: json["tagline"],
         title: json["title"],
         video: json["video"],
-        voteAverage: json["vote_average"].toDouble(),
+        voteAverage: json["vote_average"].toDouble() ?? 0,
         voteCount: json["vote_count"],
       );
 
