@@ -186,7 +186,7 @@ packages:
   core:
     dependency: "direct main"
     description:
-      path: core
+      path: "modules/core"
       relative: true
     source: path
     version: "0.0.1"
@@ -365,12 +365,10 @@ packages:
     source: hosted
     version: "4.0.2"
   integration_test:
-    dependency: "direct main"
-    description:
-      name: integration_test
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.8.1"
+    dependency: "direct dev"
+    description: flutter
+    source: sdk
+    version: "0.0.0"
   io:
     dependency: transitive
     description:
@@ -451,7 +449,7 @@ packages:
   movies:
     dependency: "direct main"
     description:
-      path: movies
+      path: "modules/movies"
       relative: true
     source: path
     version: "0.0.1"
@@ -605,7 +603,7 @@ packages:
   series:
     dependency: "direct main"
     description:
-      path: series
+      path: "modules/series"
       relative: true
     source: path
     version: "0.0.1"
