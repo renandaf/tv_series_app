@@ -17,13 +17,19 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      return web;
+      throw UnsupportedError(
+        'DefaultFirebaseOptions have not been configured for web - '
+        'you can reconfigure this by running the FlutterFire CLI again.',
+      );
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        return ios;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for ios - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.macOS:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for macos - '
@@ -46,30 +52,11 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyAGvBshibm1ifJkg7USRk3WiF1ufR-xRCg',
-    appId: '1:979398734717:web:6e44b3bc97932b706ad214',
-    messagingSenderId: '979398734717',
-    projectId: 'ditonton99',
-    authDomain: 'ditonton99.firebaseapp.com',
-    storageBucket: 'ditonton99.appspot.com',
-  );
-
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyBb-ij-mR8ymgu9vgbgHLcaD5ndn2T-FMM',
     appId: '1:979398734717:android:f41689106c55d5416ad214',
     messagingSenderId: '979398734717',
     projectId: 'ditonton99',
     storageBucket: 'ditonton99.appspot.com',
-  );
-
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyD5YiTQbmZDFJbFa7ROnWER4VtIdTQn8Ag',
-    appId: '1:979398734717:ios:f9ed4b5a8f8bcebc6ad214',
-    messagingSenderId: '979398734717',
-    projectId: 'ditonton99',
-    storageBucket: 'ditonton99.appspot.com',
-    iosClientId: '979398734717-kejmg7rc48fmv3rif6a0apt0ipeobvjo.apps.googleusercontent.com',
-    iosBundleId: 'com.example.tvSeriesApp',
   );
 }
