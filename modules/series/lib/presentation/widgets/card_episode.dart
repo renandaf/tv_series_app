@@ -1,4 +1,4 @@
-import 'package:core/constants.dart';
+import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:series/domain/entities/episode.dart';
 
