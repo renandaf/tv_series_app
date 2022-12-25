@@ -1,13 +1,10 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:core/core.dart';
 import 'package:http/http.dart' as http;
-import 'package:http/io_client.dart';
 import 'package:series/data/models/season_detail.dart';
 import 'package:series/data/models/series_detail_model.dart';
 import 'package:series/data/models/series_model.dart';
 import 'package:series/data/models/series_response.dart';
-import 'package:series/domain/entities/detail.dart';
 
 abstract class SeriesAPI {
   Future<List<SeriesModel>> getOnAirSeries();
