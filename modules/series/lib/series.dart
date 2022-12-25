@@ -10,14 +10,7 @@ export 'presentation/pages/episode_detail_page.dart';
 
 export 'presentation/widgets/watchlist_card.dart';
 
-export 'presentation/provider/detail_series_provider.dart';
-export 'presentation/provider/on_air_series_provider.dart';
-export 'presentation/provider/popular_series_provider.dart';
-export 'presentation/provider/search_series_provider.dart';
-export 'presentation/provider/series_list_notifier.dart';
-export 'presentation/provider/top_rated_series_provider.dart';
-export 'presentation/provider/watchlist_provider.dart';
-export 'presentation/provider/season_detail_provider.dart';
+export 'presentation/bloc/series_bloc.dart';
 
 export 'data/models/watchlist_model.dart';
 

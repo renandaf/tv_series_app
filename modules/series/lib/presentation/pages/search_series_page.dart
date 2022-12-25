@@ -1,9 +1,9 @@
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies/presentation/pages/search_movie_page.dart';
-import 'package:provider/provider.dart';
-import 'package:series/presentation/provider/search_series_provider.dart';
 import 'package:series/presentation/widgets/card_series_list.dart';
+import 'package:series/series.dart';
 
 class SearchPage extends StatelessWidget {
   static const routeName = '/search';
@@ -44,8 +44,9 @@ class SearchPage extends StatelessWidget {
             children: [
               TextField(
                 onChanged: (query) {
-                  Provider.of<SearchSeriesNotifier>(context, listen: false)
-                      .fetchSearchSeries(query);
+                  context
+                      .read<SearchSeriesBloc>()
+                      .add(OnQuerySeriesChanged(query));
                 },
                 decoration: const InputDecoration(
                   hintText: 'Search title',
@@ -60,14 +61,14 @@ class SearchPage extends StatelessWidget {
                 style: kH6,
               ),
               Expanded(
-                child: Consumer<SearchSeriesNotifier>(
-                  builder: (context, data, child) {
-                    if (data.state == RequestState.loading) {
+                child: BlocBuilder<SearchSeriesBloc, SeriesState>(
+                  builder: (context, state) {
+                    if (state is SeriesLoading) {
                       return const Center(
                         child: CircularProgressIndicator(),
                       );
-                    } else if (data.state == RequestState.loaded) {
-                      if (data.series.isEmpty) {
+                    } else if (state is SeriesListHasData) {
+                      if (state.result.isEmpty) {
                         return Center(
                             child: Text(
                           "No Data Found",
@@ -76,16 +77,16 @@ class SearchPage extends StatelessWidget {
                       } else {
                         return ListView.builder(
                           itemBuilder: (context, index) {
-                            final series = data.series[index];
+                            final series = state.result[index];
                             return SeriesList(series, index);
                           },
-                          itemCount: data.series.length,
+                          itemCount: state.result.length,
                         );
                       }
                     } else {
                       return Center(
                           child: Text(
-                        data.message,
+                        "No Data Found",
                         style: kH6,
                       ));
                     }

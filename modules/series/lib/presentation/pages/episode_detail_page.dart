@@ -1,8 +1,8 @@
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:series/presentation/bloc/series_bloc.dart';
 import 'package:series/presentation/widgets/card_episode.dart';
-import 'package:series/series.dart';
 
 class SeasonPage extends StatefulWidget {
   final int id;
@@ -18,9 +18,11 @@ class _SeasonPageState extends State<SeasonPage> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() =>
-        Provider.of<SeasonDetailNotifier>(context, listen: false)
-            .fetchSeason(widget.id, widget.seasonNumber));
+    Future.microtask(() {
+      context
+          .read<SeasonDetailBloc>()
+          .add(OnSeasonDetail(widget.id, widget.seasonNumber));
+    });
   }
 
   @override
@@ -34,26 +36,27 @@ class _SeasonPageState extends State<SeasonPage> {
           style: kH3,
         ),
       ),
-      body: Consumer<SeasonDetailNotifier>(
-        builder: (context, data, child) {
-          if (data.state == RequestState.loading) {
+      body: BlocBuilder<SeasonDetailBloc, SeriesState>(
+        builder: (context, state) {
+          if (state is SeriesLoading) {
             return const Center(
               child: CircularProgressIndicator(),
             );
-          } else if (data.state == RequestState.loaded) {
+          } else if (state is SeasonHasData) {
             return ListView.builder(
-              itemCount: data.season.episodes.length,
+              itemCount: state.result.episodes.length,
               itemBuilder: (BuildContext context, int index) {
-                var episode = data.season.episodes[index];
+                var episode = state.result.episodes[index];
                 return EpisodeList(episode);
               },
             );
           } else {
             return Center(
-                child: Text(
-              data.message,
-              style: kH6,
-            ));
+              child: Text(
+                'Failed to Get Data',
+                style: kH6,
+              ),
+            );
           }
         },
       ),

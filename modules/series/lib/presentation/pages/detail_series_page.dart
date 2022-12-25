@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:provider/provider.dart';
 import 'package:series/presentation/widgets/card_series.dart';
 import 'package:series/series.dart';
 
@@ -19,31 +19,34 @@ class _DetailPageState extends State<DetailPage> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() =>
-        Provider.of<DetailSeriesNotifier>(context, listen: false)
-            .fetchDetailSeries(widget.id));
-    Future.microtask(() =>
-        Provider.of<WatchListNotifier>(context, listen: false)
-            .loadWatchlistStatus(widget.id));
+    Future.microtask(() {
+      context.read<SeriesDetailBloc>().add(OnDetailSeries(widget.id));
+      context
+          .read<SeriesRecommendationBloc>()
+          .add(OnSeriesRecommendation(widget.id));
+      context
+          .read<SeriesWatchlistBloc>()
+          .add(OnSeriesWatchlistStatus(widget.id));
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
-      body: Consumer<DetailSeriesNotifier>(
-        builder: (context, data, child) {
-          if (data.state == RequestState.loading) {
+      body: BlocBuilder<SeriesDetailBloc, SeriesState>(
+        builder: (context, state) {
+          if (state is SeriesLoading) {
             return const Center(
               child: CircularProgressIndicator(),
             );
-          } else if (data.state == RequestState.loaded) {
+          } else if (state is DetailHasData) {
             return SingleChildScrollView(
               child: Stack(
                 children: [
                   CachedNetworkImage(
                     imageUrl:
-                        GetSeriesDetail.posterImage(data.series.posterPath!),
+                        GetSeriesDetail.posterImage(state.result.posterPath!),
                   ),
                   SizedBox(
                     width: double.infinity,
@@ -77,7 +80,7 @@ class _DetailPageState extends State<DetailPage> {
                     ),
                   ),
                   SizedBox(
-                    height: (data.series.overview!.length > 290) ? 1200 : 1000,
+                    height: (state.result.overview!.length > 290) ? 1200 : 1000,
                     child: Container(
                         decoration: const BoxDecoration(
                           gradient: LinearGradient(
@@ -96,7 +99,7 @@ class _DetailPageState extends State<DetailPage> {
                                 children: [
                                   Center(
                                     child: Text(
-                                      data.series.name!,
+                                      state.result.name!,
                                       style: kTitle,
                                     ),
                                   ),
@@ -107,7 +110,7 @@ class _DetailPageState extends State<DetailPage> {
                                           MainAxisAlignment.center,
                                       children: [
                                         Text(
-                                          data.series.firstAirDate
+                                          state.result.firstAirDate
                                               .toString()
                                               .substring(0, 4),
                                           style: kSmall,
@@ -120,13 +123,13 @@ class _DetailPageState extends State<DetailPage> {
                                               color:
                                                   kDavysGrey.withOpacity(0.5)),
                                         ),
-                                        data.series.genres!.length > 2
+                                        state.result.genres!.length > 2
                                             ? Text(
-                                                "${data.series.genres![0].name}, ${data.series.genres![1].name}",
+                                                "${state.result.genres![0].name}, ${state.result.genres![1].name}",
                                                 style: kSmall,
                                               )
                                             : Text(
-                                                data.series.genres![0].name,
+                                                state.result.genres![0].name,
                                                 style: kSmall,
                                               ),
                                         Text(
@@ -138,7 +141,7 @@ class _DetailPageState extends State<DetailPage> {
                                                   kDavysGrey.withOpacity(0.5)),
                                         ),
                                         Text(
-                                          "${data.series.numberOfEpisodes} Episodes",
+                                          "${state.result.numberOfEpisodes} Episodes",
                                           style: kSmall,
                                         ),
                                       ],
@@ -158,43 +161,71 @@ class _DetailPageState extends State<DetailPage> {
                                   const SizedBox(
                                     height: 18,
                                   ),
-                                  Consumer<WatchListNotifier>(
-                                      builder: (context, provider, child) {
-                                    return ElevatedButton(
-                                        onPressed: () async {
-                                          if (!provider.isAddedToWatchlist) {
-                                            await Provider.of<
-                                                        WatchListNotifier>(
-                                                    context,
-                                                    listen: false)
-                                                .addWatchlist(data.series);
-                                          } else {
-                                            await Provider.of<
-                                                        WatchListNotifier>(
-                                                    context,
-                                                    listen: false)
-                                                .removeFromWatchlist(
-                                                    data.series);
-                                          }
-                                        },
-                                        style: ButtonStyle(
-                                            padding: MaterialStateProperty.all<
-                                                    EdgeInsets>(
-                                                const EdgeInsets.symmetric(
-                                                    vertical: 13,
-                                                    horizontal: 43)),
-                                            shape: MaterialStateProperty.all<
-                                                    RoundedRectangleBorder>(
-                                                RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(18.0),
-                                            ))),
-                                        child: Text(
-                                          provider.isAddedToWatchlist
-                                              ? "Remove from Watchlist"
-                                              : "Add to Watchlist",
-                                          style: const TextStyle(fontSize: 18),
-                                        ));
+                                  BlocBuilder<SeriesWatchlistBloc, SeriesState>(
+                                      builder: (context, result) {
+                                    if (result is SeriesWatchlistStatus) {
+                                      return ElevatedButton(
+                                          onPressed: () async {
+                                            if (result.status == false) {
+                                              context
+                                                  .read<SeriesWatchlistBloc>()
+                                                  .add(OnAddSeriesWatchlist(
+                                                      state.result));
+                                              BlocProvider.of<
+                                                          SeriesWatchlistBloc>(
+                                                      context)
+                                                  .add(OnSeriesWatchlistStatus(
+                                                      widget.id));
+                                            } else {
+                                              context
+                                                  .read<SeriesWatchlistBloc>()
+                                                  .add(OnRemoveSeriesWatchlist(
+                                                      state.result));
+                                              BlocProvider.of<
+                                                          SeriesWatchlistBloc>(
+                                                      context)
+                                                  .add(OnSeriesWatchlistStatus(
+                                                      widget.id));
+                                            }
+                                          },
+                                          style: ButtonStyle(
+                                              padding: MaterialStateProperty
+                                                  .all<EdgeInsets>(
+                                                      const EdgeInsets
+                                                              .symmetric(
+                                                          vertical: 13,
+                                                          horizontal: 43)),
+                                              shape: MaterialStateProperty.all<
+                                                      RoundedRectangleBorder>(
+                                                  RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(18.0),
+                                              ))),
+                                          child: Text(
+                                            result.status
+                                                ? "Remove from Watchlist"
+                                                : "Add to Watchlist",
+                                            style:
+                                                const TextStyle(fontSize: 18),
+                                          ));
+                                    } else {
+                                      return ElevatedButton(
+                                          style: ButtonStyle(
+                                              padding: MaterialStateProperty
+                                                  .all<EdgeInsets>(
+                                                      const EdgeInsets
+                                                              .symmetric(
+                                                          vertical: 13,
+                                                          horizontal: 43)),
+                                              shape: MaterialStateProperty.all<
+                                                      RoundedRectangleBorder>(
+                                                  RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(18.0),
+                                              ))),
+                                          onPressed: () {},
+                                          child: const Text(""));
+                                    }
                                   }),
                                   const SizedBox(
                                     height: 15,
@@ -221,9 +252,9 @@ class _DetailPageState extends State<DetailPage> {
                                         height: 5,
                                       ),
                                       Text(
-                                          data.series.overview!.length < 2
+                                          state.result.overview!.length < 2
                                               ? "No Overview"
-                                              : data.series.overview!,
+                                              : state.result.overview!,
                                           style: kBody),
                                       const SizedBox(
                                         height: 20,
@@ -254,7 +285,7 @@ class _DetailPageState extends State<DetailPage> {
                                   ),
                                   child: ListView.builder(
                                     scrollDirection: Axis.horizontal,
-                                    itemCount: data.series.numberOfSeasons,
+                                    itemCount: state.result.numberOfSeasons,
                                     itemBuilder:
                                         (BuildContext context, int index) {
                                       return Padding(
@@ -268,7 +299,7 @@ class _DetailPageState extends State<DetailPage> {
                                                 MaterialPageRoute(
                                                   builder: (context) =>
                                                       SeasonPage(
-                                                    id: data.series.id!,
+                                                    id: state.result.id!,
                                                     seasonNumber: (index + 1),
                                                   ),
                                                 ));
@@ -314,15 +345,15 @@ class _DetailPageState extends State<DetailPage> {
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 20),
-                                  child: Consumer<DetailSeriesNotifier>(
-                                    builder: (context, data, child) {
-                                      if (data.state == RequestState.loading) {
+                                  child: BlocBuilder<SeriesRecommendationBloc,
+                                      SeriesState>(
+                                    builder: (context, recom) {
+                                      if (recom is SeriesLoading) {
                                         return const Center(
                                           child: CircularProgressIndicator(),
                                         );
-                                      } else if (data.state ==
-                                          RequestState.loaded) {
-                                        if (data.seriesRecom.isEmpty) {
+                                      } else if (recom is SeriesListHasData) {
+                                        if (recom.result.isEmpty) {
                                           return Padding(
                                             padding: const EdgeInsets.symmetric(
                                                 horizontal: 10),
@@ -336,7 +367,7 @@ class _DetailPageState extends State<DetailPage> {
                                             scrollDirection: Axis.horizontal,
                                             itemBuilder: (context, index) {
                                               final series =
-                                                  data.seriesRecom[index];
+                                                  recom.result[index];
                                               return CardSeries(series);
                                             },
                                             itemCount: 5,
@@ -345,7 +376,7 @@ class _DetailPageState extends State<DetailPage> {
                                       } else {
                                         return Center(
                                             child: Text(
-                                          data.message,
+                                          "Failed to Get Data",
                                           style: kBody,
                                         ));
                                       }
@@ -361,7 +392,7 @@ class _DetailPageState extends State<DetailPage> {
           } else {
             return Center(
                 child: Text(
-              data.message,
+              "Failed to Get Data",
               style: kBody,
             ));
           }

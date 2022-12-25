@@ -1,8 +1,8 @@
 import 'package:core/core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies/movies.dart';
-import 'package:provider/provider.dart';
 import 'package:series/series.dart';
 import 'package:sizer/sizer.dart';
 import 'package:tv_series_app/injection.dart' as injection;
@@ -19,52 +19,52 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Sizer(builder: (context, orientation, deviceType) {
-      return MultiProvider(
+      return MultiBlocProvider(
         providers: [
-          ChangeNotifierProvider(
-            create: (context) => injection.locator<TopRatedSeriesNotifier>(),
+          BlocProvider(
+            create: (_) => injection.locator<MovieDetailBloc>(),
           ),
-          ChangeNotifierProvider(
-            create: (context) => injection.locator<PopularSeriesNotifier>(),
+          BlocProvider(
+            create: (_) => injection.locator<SearchMovieBloc>(),
           ),
-          ChangeNotifierProvider(
-            create: (context) => injection.locator<OnAirSeriesNotifier>(),
+          BlocProvider(
+            create: (_) => injection.locator<TopRatedMovieBloc>(),
           ),
-          ChangeNotifierProvider(
-            create: (context) => injection.locator<DetailSeriesNotifier>(),
+          BlocProvider(
+            create: (_) => injection.locator<NowPlayingMovieBloc>(),
           ),
-          ChangeNotifierProvider(
-            create: (context) => injection.locator<WatchListNotifier>(),
+          BlocProvider(
+            create: (_) => injection.locator<PopularMovieBloc>(),
           ),
-          ChangeNotifierProvider(
-            create: (context) => injection.locator<SearchSeriesNotifier>(),
+          BlocProvider(
+            create: (_) => injection.locator<MovieWatchlistBloc>(),
           ),
-          ChangeNotifierProvider(
-            create: (_) => injection.locator<MovieListNotifier>(),
+          BlocProvider(
+            create: (_) => injection.locator<MovieRecommendationBloc>(),
           ),
-          ChangeNotifierProvider(
-            create: (_) => injection.locator<MovieDetailNotifier>(),
+          BlocProvider(
+            create: (_) => injection.locator<SeriesDetailBloc>(),
           ),
-          ChangeNotifierProvider(
-            create: (_) => injection.locator<MovieSearchNotifier>(),
+          BlocProvider(
+            create: (_) => injection.locator<SearchSeriesBloc>(),
           ),
-          ChangeNotifierProvider(
-            create: (_) => injection.locator<TopRatedMoviesNotifier>(),
+          BlocProvider(
+            create: (_) => injection.locator<TopRatedSeriesBloc>(),
           ),
-          ChangeNotifierProvider(
-            create: (_) => injection.locator<PopularMoviesNotifier>(),
+          BlocProvider(
+            create: (_) => injection.locator<OnAirSeriesBloc>(),
           ),
-          ChangeNotifierProvider(
-            create: (_) => injection.locator<WatchlistMovieNotifier>(),
+          BlocProvider(
+            create: (_) => injection.locator<PopularSeriesBloc>(),
           ),
-          ChangeNotifierProvider(
-            create: (_) => injection.locator<SeriesListNotifier>(),
+          BlocProvider(
+            create: (_) => injection.locator<SeriesWatchlistBloc>(),
           ),
-          ChangeNotifierProvider(
-            create: (_) => injection.locator<NowPlayingMovieNotifier>(),
+          BlocProvider(
+            create: (_) => injection.locator<SeriesRecommendationBloc>(),
           ),
-          ChangeNotifierProvider(
-            create: (_) => injection.locator<SeasonDetailNotifier>(),
+          BlocProvider(
+            create: (_) => injection.locator<SeasonDetailBloc>(),
           ),
         ],
         child: MaterialApp(

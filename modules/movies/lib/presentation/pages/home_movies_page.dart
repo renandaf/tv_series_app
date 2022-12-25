@@ -1,11 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
-import 'package:movies/presentation/pages/now_playing_movie_page.dart';
-import 'package:movies/presentation/pages/top_rated_movie_page.dart';
-import 'package:movies/presentation/provider/movie_list_notifier.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movies/domain/entities/movie.dart';
+import 'package:movies/movies.dart';
 import 'package:movies/presentation/widgets/card_movie.dart';
-import 'package:provider/provider.dart';
 import 'package:series/series.dart';
 
 class HomePageMovies extends StatefulWidget {
@@ -21,15 +20,11 @@ class _HomePageMoviesState extends State<HomePageMovies> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() =>
-        Provider.of<MovieListNotifier>(context, listen: false)
-            .fetchTopRatedMovies());
-    Future.microtask(() =>
-        Provider.of<MovieListNotifier>(context, listen: false)
-            .fetchNowPlayingMovies());
-    Future.microtask(() =>
-        Provider.of<MovieListNotifier>(context, listen: false)
-            .fetchPopularMovies());
+    Future.microtask(() {
+      context.read<NowPlayingMovieBloc>().add(OnNowPlayingMovie());
+      context.read<PopularMovieBloc>().add(OnPopularMovie());
+      context.read<TopRatedMovieBloc>().add(OnTopRatedMovie());
+    });
   }
 
   @override
@@ -46,7 +41,7 @@ class _HomePageMoviesState extends State<HomePageMovies> {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.pushNamed(context, SearchPage.routeName);
+              Navigator.pushNamed(context, SearchMoviePage.routeName);
             },
             icon: const Icon(
               Icons.search,
@@ -70,46 +65,45 @@ class _HomePageMoviesState extends State<HomePageMovies> {
                 child: Column(
                   children: [
                     Expanded(
-                      child: Consumer<MovieListNotifier>(
-                        builder: (context, data, child) {
-                          if (data.popularMoviesState == RequestState.loading) {
-                            return const Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          } else if (data.popularMoviesState ==
-                              RequestState.loaded) {
-                            return PageView.builder(
-                                itemCount: 8,
-                                pageSnapping: true,
-                                itemBuilder: (context, pagePosition) {
-                                  return Container(
-                                      margin: const EdgeInsets.symmetric(
-                                          horizontal: 10),
-                                      child: InkWell(
-                                        onTap: () {
-                                          Navigator.pushNamed(
-                                            context,
-                                            DetailPage.routeName,
-                                            arguments: data
-                                                .popularMovies[pagePosition].id,
-                                          );
-                                        },
-                                        child: CachedNetworkImage(
-                                            imageUrl: GetSeriesDetail
-                                                .backDropImage(data
-                                                    .popularMovies[pagePosition]
-                                                    .backdropPath!)),
-                                      ));
-                                });
-                          } else {
-                            return Center(
-                                child: Text(
-                              data.message,
+                      child: BlocBuilder<PopularMovieBloc, MovieState>(
+                          builder: (context, state) {
+                        if (state is MovieLoading) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        } else if (state is MovieListHasData) {
+                          return PageView.builder(
+                              itemCount: 8,
+                              pageSnapping: true,
+                              itemBuilder: (context, pagePosition) {
+                                return Container(
+                                    margin: const EdgeInsets.symmetric(
+                                        horizontal: 10),
+                                    child: InkWell(
+                                      onTap: () {
+                                        Navigator.pushNamed(
+                                          context,
+                                          DetailMoviePage.routeName,
+                                          arguments:
+                                              state.result[pagePosition].id,
+                                        );
+                                      },
+                                      child: CachedNetworkImage(
+                                          imageUrl:
+                                              GetMovieDetail.backDropImage(state
+                                                  .result[pagePosition]
+                                                  .backdropPath!)),
+                                    ));
+                              });
+                        } else {
+                          return Center(
+                            child: Text(
+                              'Failed to Get Data',
                               style: kH6,
-                            ));
-                          }
-                        },
-                      ),
+                            ),
+                          );
+                        }
+                      }),
                     ),
                   ],
                 ),
@@ -127,31 +121,30 @@ class _HomePageMoviesState extends State<HomePageMovies> {
                 child: Column(
                   children: [
                     Expanded(
-                      child: Consumer<MovieListNotifier>(
-                        builder: (context, data, child) {
-                          if (data.nowPlayingState == RequestState.loading) {
-                            return const Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          } else if (data.nowPlayingState ==
-                              RequestState.loaded) {
-                            return ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemBuilder: (context, index) {
-                                final movie = data.nowPlayingMovies[index];
-                                return CardMovie(movie);
-                              },
-                              itemCount: 5,
-                            );
-                          } else {
-                            return Center(
-                                child: Text(
-                              data.message,
+                      child: BlocBuilder<NowPlayingMovieBloc, MovieState>(
+                          builder: (context, state) {
+                        if (state is MovieLoading) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        } else if (state is MovieListHasData) {
+                          return ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: state.result.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              Movie movie = state.result[index];
+                              return CardMovie(movie);
+                            },
+                          );
+                        } else {
+                          return Center(
+                            child: Text(
+                              'Failed to Get Data',
                               style: kH6,
-                            ));
-                          }
-                        },
-                      ),
+                            ),
+                          );
+                        }
+                      }),
                     ),
                   ],
                 ),
@@ -166,32 +159,30 @@ class _HomePageMoviesState extends State<HomePageMovies> {
                 child: Column(
                   children: [
                     Expanded(
-                      child: Consumer<MovieListNotifier>(
-                        builder: (context, data, child) {
-                          if (data.topRatedMoviesState ==
-                              RequestState.loading) {
-                            return const Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          } else if (data.topRatedMoviesState ==
-                              RequestState.loaded) {
-                            return ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemBuilder: (context, index) {
-                                final movie = data.topRatedMovies[index];
-                                return CardMovie(movie);
-                              },
-                              itemCount: 5,
-                            );
-                          } else {
-                            return Center(
-                                child: Text(
-                              data.message,
+                      child: BlocBuilder<TopRatedMovieBloc, MovieState>(
+                          builder: (context, state) {
+                        if (state is MovieLoading) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        } else if (state is MovieListHasData) {
+                          return ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: state.result.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              Movie movie = state.result[index];
+                              return CardMovie(movie);
+                            },
+                          );
+                        } else {
+                          return Center(
+                            child: Text(
+                              'Failed to Get Data',
                               style: kH6,
-                            ));
-                          }
-                        },
-                      ),
+                            ),
+                          );
+                        }
+                      }),
                     ),
                   ],
                 ),

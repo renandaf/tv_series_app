@@ -4,9 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:series/domain/entities/detail.dart';
-import 'package:series/domain/usecases/get_series_detail.dart';
-import 'package:series/presentation/pages/detail_series_page.dart';
-import 'package:series/presentation/provider/watchlist_provider.dart';
+import 'package:series/series.dart';
 import 'package:sizer/sizer.dart';
 
 class WatchList extends StatelessWidget {
@@ -113,9 +111,9 @@ class WatchList extends StatelessWidget {
                             ),
                             TextButton(
                               onPressed: () async {
-                                await Provider.of<WatchListNotifier>(context,
-                                        listen: false)
-                                    .removeFromWatchlist(series);
+                                context
+                                    .read<SeriesWatchlistBloc>()
+                                    .add(OnRemoveSeriesWatchlist(series));
                                 Navigator.pop(context, 'Confirm');
                               },
                               child: Text('Confirm', style: kBody),

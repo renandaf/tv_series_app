@@ -1,12 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:movies/domain/usecases/get_movie_detail.dart';
+import 'package:movies/movies.dart';
 import 'package:movies/presentation/widgets/card_movie.dart';
-import 'package:provider/provider.dart';
-
-import '../provider/movie_detail_notifier.dart';
 
 class DetailMoviePage extends StatefulWidget {
   final int id;
@@ -21,38 +19,36 @@ class _DetailMoviePageState extends State<DetailMoviePage> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() =>
-        Provider.of<MovieDetailNotifier>(context, listen: false)
-            .fetchMovieDetail(widget.id));
-    Future.microtask(() =>
-        Provider.of<MovieDetailNotifier>(context, listen: false)
-            .loadWatchlistStatus(widget.id));
+    Future.microtask(() {
+      context.read<MovieDetailBloc>().add(OnDetailMovie(widget.id));
+      context
+          .read<MovieRecommendationBloc>()
+          .add(OnMovieRecommendation(widget.id));
+      context.read<MovieWatchlistBloc>().add(OnMovieWatchlistStatus(widget.id));
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
-      body: Consumer<MovieDetailNotifier>(
-        builder: (context, data, child) {
-          if (data.movieState == RequestState.loading) {
+      body: BlocBuilder<MovieDetailBloc, MovieState>(
+        builder: (context, state) {
+          if (state is MovieLoading) {
             return const Center(
               child: CircularProgressIndicator(),
             );
-          } else if (data.movieState == RequestState.loaded) {
+          } else if (state is MovieDetailHasData) {
             return SingleChildScrollView(
               child: Stack(
                 children: [
-                  Container(
+                  CachedNetworkImage(
+                    imageUrl:
+                        GetMovieDetail.posterImage(state.result.posterPath!),
+                  ),
+                  SizedBox(
                     width: double.infinity,
                     height: size.height * 0.45,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                          image: CachedNetworkImageProvider(
-                              GetMovieDetail.posterImage(
-                                  data.movie.posterPath!)),
-                          fit: BoxFit.cover),
-                    ),
                     child: SafeArea(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
@@ -82,7 +78,7 @@ class _DetailMoviePageState extends State<DetailMoviePage> {
                     ),
                   ),
                   SizedBox(
-                    height: (data.movie.overview!.length > 270) ? 1100 : 900,
+                    height: (state.result.overview!.length > 270) ? 1100 : 900,
                     child: Container(
                         decoration: const BoxDecoration(
                           gradient: LinearGradient(
@@ -100,7 +96,7 @@ class _DetailMoviePageState extends State<DetailMoviePage> {
                               Column(
                                 children: [
                                   Text(
-                                    data.movie.title!,
+                                    state.result.title!,
                                     style: kTitle,
                                   ),
                                   SingleChildScrollView(
@@ -110,7 +106,7 @@ class _DetailMoviePageState extends State<DetailMoviePage> {
                                           MainAxisAlignment.center,
                                       children: [
                                         Text(
-                                          data.movie.releaseDate
+                                          state.result.releaseDate
                                               .toString()
                                               .substring(0, 4),
                                           style: kSmall,
@@ -123,13 +119,13 @@ class _DetailMoviePageState extends State<DetailMoviePage> {
                                               color:
                                                   kDavysGrey.withOpacity(0.5)),
                                         ),
-                                        data.movie.genres!.length > 2
+                                        state.result.genres!.length > 2
                                             ? Text(
-                                                "${data.movie.genres![0].name}, ${data.movie.genres![1].name}",
+                                                "${state.result.genres![0].name}, ${state.result.genres![1].name}",
                                                 style: kSmall,
                                               )
                                             : Text(
-                                                data.movie.genres![0].name,
+                                                state.result.genres![0].name,
                                                 style: kSmall,
                                               ),
                                         Text(
@@ -141,7 +137,7 @@ class _DetailMoviePageState extends State<DetailMoviePage> {
                                                   kDavysGrey.withOpacity(0.5)),
                                         ),
                                         Text(
-                                          "${data.movie.runtime} minutes",
+                                          "${state.result.runtime} minutes",
                                           style: kSmall,
                                         ),
                                       ],
@@ -161,43 +157,71 @@ class _DetailMoviePageState extends State<DetailMoviePage> {
                                   const SizedBox(
                                     height: 18,
                                   ),
-                                  Consumer<MovieDetailNotifier>(
-                                      builder: (context, provider, child) {
-                                    return ElevatedButton(
-                                        onPressed: () async {
-                                          if (!provider.isAddedToWatchlist) {
-                                            await Provider.of<
-                                                        MovieDetailNotifier>(
-                                                    context,
-                                                    listen: false)
-                                                .addWatchlist(data.movie);
-                                          } else {
-                                            await Provider.of<
-                                                        MovieDetailNotifier>(
-                                                    context,
-                                                    listen: false)
-                                                .removeFromWatchlist(
-                                                    data.movie);
-                                          }
-                                        },
-                                        style: ButtonStyle(
-                                            padding: MaterialStateProperty.all<
-                                                    EdgeInsets>(
-                                                const EdgeInsets.symmetric(
-                                                    vertical: 13,
-                                                    horizontal: 43)),
-                                            shape: MaterialStateProperty.all<
-                                                    RoundedRectangleBorder>(
-                                                RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(18.0),
-                                            ))),
-                                        child: Text(
-                                          provider.isAddedToWatchlist
-                                              ? "Remove from Watchlist"
-                                              : "Add to Watchlist",
-                                          style: const TextStyle(fontSize: 18),
-                                        ));
+                                  BlocBuilder<MovieWatchlistBloc, MovieState>(
+                                      builder: (context, result) {
+                                    if (result is MovieWatchlistStatus) {
+                                      return ElevatedButton(
+                                          onPressed: () async {
+                                            if (result.status == false) {
+                                              context
+                                                  .read<MovieWatchlistBloc>()
+                                                  .add(OnAddMovieWatchlist(
+                                                      state.result));
+                                              BlocProvider.of<
+                                                          MovieWatchlistBloc>(
+                                                      context)
+                                                  .add(OnMovieWatchlistStatus(
+                                                      widget.id));
+                                            } else {
+                                              context
+                                                  .read<MovieWatchlistBloc>()
+                                                  .add(OnRemoveMovieWatchlist(
+                                                      state.result));
+                                              BlocProvider.of<
+                                                          MovieWatchlistBloc>(
+                                                      context)
+                                                  .add(OnMovieWatchlistStatus(
+                                                      widget.id));
+                                            }
+                                          },
+                                          style: ButtonStyle(
+                                              padding: MaterialStateProperty
+                                                  .all<EdgeInsets>(
+                                                      const EdgeInsets
+                                                              .symmetric(
+                                                          vertical: 13,
+                                                          horizontal: 43)),
+                                              shape: MaterialStateProperty.all<
+                                                      RoundedRectangleBorder>(
+                                                  RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(18.0),
+                                              ))),
+                                          child: Text(
+                                            result.status
+                                                ? "Remove from Watchlist"
+                                                : "Add to Watchlist",
+                                            style:
+                                                const TextStyle(fontSize: 18),
+                                          ));
+                                    } else {
+                                      return ElevatedButton(
+                                          style: ButtonStyle(
+                                              padding: MaterialStateProperty
+                                                  .all<EdgeInsets>(
+                                                      const EdgeInsets
+                                                              .symmetric(
+                                                          vertical: 13,
+                                                          horizontal: 43)),
+                                              shape: MaterialStateProperty.all<
+                                                      RoundedRectangleBorder>(
+                                                  RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(18.0),
+                                              ))),
+                                          onPressed: () {},
+                                          child: const Text(""));
+                                    }
                                   }),
                                   const SizedBox(
                                     height: 15,
@@ -224,9 +248,9 @@ class _DetailMoviePageState extends State<DetailMoviePage> {
                                         height: 5,
                                       ),
                                       Text(
-                                          data.movie.overview!.length < 2
+                                          state.result.overview!.length < 2
                                               ? "No Overview"
-                                              : data.movie.overview!,
+                                              : state.result.overview!,
                                           style: kBody),
                                       const SizedBox(
                                         height: 20,
@@ -253,16 +277,15 @@ class _DetailMoviePageState extends State<DetailMoviePage> {
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 20),
-                                  child: Consumer<MovieDetailNotifier>(
-                                    builder: (context, data, child) {
-                                      if (data.recommendationState ==
-                                          RequestState.loading) {
+                                  child: BlocBuilder<MovieRecommendationBloc,
+                                      MovieState>(
+                                    builder: (context, recom) {
+                                      if (recom is MovieLoading) {
                                         return const Center(
                                           child: CircularProgressIndicator(),
                                         );
-                                      } else if (data.recommendationState ==
-                                          RequestState.loaded) {
-                                        if (data.movieRecommendations.isEmpty) {
+                                      } else if (recom is MovieListHasData) {
+                                        if (recom.result.isEmpty) {
                                           return Padding(
                                             padding: const EdgeInsets.symmetric(
                                                 horizontal: 10),
@@ -275,8 +298,7 @@ class _DetailMoviePageState extends State<DetailMoviePage> {
                                           return ListView.builder(
                                             scrollDirection: Axis.horizontal,
                                             itemBuilder: (context, index) {
-                                              final movie = data
-                                                  .movieRecommendations[index];
+                                              final movie = recom.result[index];
                                               return CardMovie(movie);
                                             },
                                             itemCount: 5,
@@ -285,7 +307,7 @@ class _DetailMoviePageState extends State<DetailMoviePage> {
                                       } else {
                                         return Center(
                                             child: Text(
-                                          data.message,
+                                          "Failed to Get Data",
                                           style: kBody,
                                         ));
                                       }
@@ -301,7 +323,7 @@ class _DetailMoviePageState extends State<DetailMoviePage> {
           } else {
             return Center(
                 child: Text(
-              data.message,
+              "Failed to Get Data",
               style: kBody,
             ));
           }

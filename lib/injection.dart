@@ -9,92 +9,78 @@ final locator = GetIt.instance;
 void init() {
   // provider
   locator.registerFactory(
-    () => TopRatedSeriesNotifier(
+    () => NowPlayingMovieBloc(
       locator(),
     ),
   );
   locator.registerFactory(
-    () => PopularSeriesNotifier(
+    () => PopularMovieBloc(
       locator(),
     ),
   );
   locator.registerFactory(
-    () => OnAirSeriesNotifier(
+    () => TopRatedMovieBloc(
       locator(),
     ),
   );
   locator.registerFactory(
-    () => DetailSeriesNotifier(
-      getDetailSeries: locator(),
-      getSeriesRecommendations: locator(),
-    ),
-  );
-  locator.registerFactory(
-    () => WatchListNotifier(
-        getWatchListStatus: locator(),
-        saveWatchlist: locator(),
-        removeWatchlist: locator(),
-        getWatchlistSeries: locator()),
-  );
-  locator.registerFactory(
-    () => SearchSeriesNotifier(
+    () => SearchMovieBloc(
       locator(),
     ),
+  );
+  locator.registerFactory(
+    () => MovieDetailBloc(locator()),
+  );
+  locator.registerFactory(
+    () => MovieWatchlistBloc(
+      locator(),
+      locator(),
+      locator(),
+      locator(),
+    ),
+  );
+  locator.registerFactory(
+    () => MovieRecommendationBloc(locator()),
   );
 
   locator.registerFactory(
-    () => MovieListNotifier(
-      getNowPlayingMovies: locator(),
-      getPopularMovies: locator(),
-      getTopRatedMovies: locator(),
-    ),
-  );
-  locator.registerFactory(
-    () => MovieDetailNotifier(
-      getMovieDetail: locator(),
-      getMovieRecommendations: locator(),
-      getWatchListStatus: locator(),
-      saveWatchlist: locator(),
-      removeWatchlist: locator(),
-    ),
-  );
-  locator.registerFactory(
-    () => MovieSearchNotifier(
-      searchMovies: locator(),
-    ),
-  );
-  locator.registerFactory(
-    () => PopularMoviesNotifier(
+    () => OnAirSeriesBloc(
       locator(),
     ),
   );
   locator.registerFactory(
-    () => TopRatedMoviesNotifier(
-      getTopRatedMovies: locator(),
-    ),
-  );
-  locator.registerFactory(
-    () => WatchlistMovieNotifier(
-      getWatchlistMovies: locator(),
-    ),
-  );
-  locator.registerFactory(
-    () => SeriesListNotifier(
-      getOnAirSeries: locator(),
-      getPopularSeries: locator(),
-      getTopRatedSeries: locator(),
-    ),
-  );
-  locator.registerFactory(
-    () => NowPlayingMovieNotifier(
+    () => PopularSeriesBloc(
       locator(),
     ),
   );
   locator.registerFactory(
-    () => SeasonDetailNotifier(
+    () => TopRatedSeriesBloc(
       locator(),
     ),
   );
+  locator.registerFactory(
+    () => SearchSeriesBloc(
+      locator(),
+    ),
+  );
+  locator.registerFactory(
+    () => SeriesDetailBloc(locator()),
+  );
+  locator.registerFactory(
+    () => SeriesWatchlistBloc(
+      locator(),
+      locator(),
+      locator(),
+      locator(),
+    ),
+  );
+  locator.registerFactory(
+    () => SeriesRecommendationBloc(locator()),
+  );
+  locator.registerFactory(
+    () => SeasonDetailBloc(locator()),
+  );
+
   // use case
 
   locator.registerLazySingleton(() => GetTopRatedSeries(locator()));

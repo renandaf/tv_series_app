@@ -1,10 +1,8 @@
-import 'package:core/utils/constants.dart';
-import 'package:core/utils/utils.dart';
-import 'package:core/widgets/drawer.dart';
+import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:movies/movies.dart';
-import 'package:provider/provider.dart';
 import 'package:series/series.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class WatchlistPage extends StatefulWidget {
   static const routeName = '/watchlist';
@@ -19,12 +17,12 @@ class _WatchlistPageState extends State<WatchlistPage> with RouteAware {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() =>
-        Provider.of<WatchListNotifier>(context, listen: false)
-            .fetchWatchlistSeries());
-    Future.microtask(() =>
-        Provider.of<WatchlistMovieNotifier>(context, listen: false)
-            .fetchWatchlistMovies());
+    Future.microtask(() {
+      context.read<MovieWatchlistBloc>().add(OnMovieWatchlist());
+    });
+    Future.microtask(() {
+      context.read<SeriesWatchlistBloc>().add(OnSeriesWatchlist());
+    });
   }
 
   @override
@@ -35,10 +33,8 @@ class _WatchlistPageState extends State<WatchlistPage> with RouteAware {
 
   @override
   void didPopNext() {
-    Provider.of<WatchListNotifier>(context, listen: false)
-        .fetchWatchlistSeries();
-    Provider.of<WatchlistMovieNotifier>(context, listen: false)
-        .fetchWatchlistMovies();
+    BlocProvider.of<MovieWatchlistBloc>(context).add(OnMovieWatchlist());
+    BlocProvider.of<SeriesWatchlistBloc>(context).add(OnSeriesWatchlist());
   }
 
   @override
@@ -64,21 +60,29 @@ class _WatchlistPageState extends State<WatchlistPage> with RouteAware {
               ),
             ),
             Expanded(
-              child: Consumer<WatchlistMovieNotifier>(
-                builder: (context, data, child) {
-                  if (data.watchlistMovies.isEmpty) {
+              child: BlocBuilder<MovieWatchlistBloc, MovieState>(
+                  builder: (context, state) {
+                if (state is WatchlistMovieHasData) {
+                  if (state.result.isEmpty) {
                     return Center(child: Text("No data Found", style: kH5));
                   } else {
                     return ListView.builder(
                       itemBuilder: (context, index) {
-                        final movie = data.watchlistMovies[index];
+                        final movie = state.result[index];
                         return WatchListMovie(movie);
                       },
-                      itemCount: data.watchlistMovies.length,
+                      itemCount: state.result.length,
                     );
                   }
-                },
-              ),
+                } else {
+                  return Center(
+                    child: Text(
+                      'Failed to Get Data',
+                      style: kH6,
+                    ),
+                  );
+                }
+              }),
             ),
             Padding(
               padding: const EdgeInsets.all(10.0),
@@ -88,21 +92,29 @@ class _WatchlistPageState extends State<WatchlistPage> with RouteAware {
               ),
             ),
             Expanded(
-              child: Consumer<WatchListNotifier>(
-                builder: (context, data, child) {
-                  if (data.watchlistSeries.isEmpty) {
+              child: BlocBuilder<SeriesWatchlistBloc, SeriesState>(
+                  builder: (context, state) {
+                if (state is WatchlistSeriesHasData) {
+                  if (state.result.isEmpty) {
                     return Center(child: Text("No data Found", style: kH5));
                   } else {
                     return ListView.builder(
                       itemBuilder: (context, index) {
-                        final series = data.watchlistSeries[index];
+                        final series = state.result[index];
                         return WatchList(series);
                       },
-                      itemCount: data.watchlistSeries.length,
+                      itemCount: state.result.length,
                     );
                   }
-                },
-              ),
+                } else {
+                  return Center(
+                    child: Text(
+                      'Failed to Get Data',
+                      style: kH6,
+                    ),
+                  );
+                }
+              }),
             ),
           ],
         ));

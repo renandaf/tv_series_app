@@ -1,9 +1,9 @@
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
-import 'package:movies/presentation/pages/search_movie_page.dart';
-import 'package:movies/presentation/provider/now_playing_movie_notifier.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movies/domain/entities/movie.dart';
+import 'package:movies/movies.dart';
 import 'package:movies/presentation/widgets/card_movie_list.dart';
-import 'package:provider/provider.dart';
 
 class NowPlayingMoviePage extends StatefulWidget {
   static const routeName = '/now_playing_movie';
@@ -18,9 +18,9 @@ class _NowPlayingMoviePageState extends State<NowPlayingMoviePage> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() =>
-        Provider.of<NowPlayingMovieNotifier>(context, listen: false)
-            .fetchNowPlayingMovies());
+    Future.microtask(() {
+      context.read<NowPlayingMovieBloc>().add(OnNowPlayingMovie());
+    });
   }
 
   @override
@@ -48,29 +48,29 @@ class _NowPlayingMoviePageState extends State<NowPlayingMoviePage> {
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-          child: Consumer<NowPlayingMovieNotifier>(
-            builder: (context, data, child) {
-              if (data.state == RequestState.loading) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              } else if (data.state == RequestState.loaded) {
-                return ListView.builder(
-                  itemBuilder: (context, index) {
-                    final movie = data.movie[index];
-                    return MovieList(movie, index);
-                  },
-                  itemCount: data.movie.length,
-                );
-              } else {
-                return Center(
-                    child: Text(
-                  data.message,
+          child: BlocBuilder<NowPlayingMovieBloc, MovieState>(
+              builder: (context, state) {
+            if (state is MovieLoading) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (state is MovieListHasData) {
+              return ListView.builder(
+                itemCount: state.result.length,
+                itemBuilder: (BuildContext context, int index) {
+                  Movie movie = state.result[index];
+                  return MovieList(movie, index);
+                },
+              );
+            } else {
+              return Center(
+                child: Text(
+                  'Failed to Get Data',
                   style: kH6,
-                ));
-              }
-            },
-          ),
+                ),
+              );
+            }
+          }),
         ));
   }
 }

@@ -1,14 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:series/domain/usecases/get_series_detail.dart';
-import 'package:series/presentation/pages/detail_series_page.dart';
-import 'package:series/presentation/pages/on_air_series_page.dart';
-import 'package:series/presentation/pages/search_series_page.dart';
-import 'package:series/presentation/pages/top_rated_series_page.dart';
-import 'package:series/presentation/provider/series_list_notifier.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:series/domain/entities/series.dart';
 import 'package:series/presentation/widgets/card_series.dart';
+import 'package:series/series.dart';
 
 class HomePageSeries extends StatefulWidget {
   static const routeName = '/homeSeries';
@@ -23,15 +19,11 @@ class _HomePageSeriesState extends State<HomePageSeries> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() =>
-        Provider.of<SeriesListNotifier>(context, listen: false)
-            .fetchTopRatedSeries());
-    Future.microtask(() =>
-        Provider.of<SeriesListNotifier>(context, listen: false)
-            .fetchOnAirSeries());
-    Future.microtask(() =>
-        Provider.of<SeriesListNotifier>(context, listen: false)
-            .fetchPopularSeries());
+    Future.microtask(() {
+      context.read<OnAirSeriesBloc>().add(OnOnAirSeries());
+      context.read<PopularSeriesBloc>().add(OnPopularSeries());
+      context.read<TopRatedSeriesBloc>().add(OnTopRatedSeries());
+    });
   }
 
   @override
@@ -73,46 +65,45 @@ class _HomePageSeriesState extends State<HomePageSeries> {
                 child: Column(
                   children: [
                     Expanded(
-                      child: Consumer<SeriesListNotifier>(
-                        builder: (context, data, child) {
-                          if (data.popularSeriesState == RequestState.loading) {
-                            return const Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          } else if (data.popularSeriesState ==
-                              RequestState.loaded) {
-                            return PageView.builder(
-                                itemCount: 8,
-                                pageSnapping: true,
-                                itemBuilder: (context, pagePosition) {
-                                  return Container(
-                                      margin: const EdgeInsets.symmetric(
-                                          horizontal: 10),
-                                      child: InkWell(
-                                        onTap: () {
-                                          Navigator.pushNamed(
-                                            context,
-                                            DetailPage.routeName,
-                                            arguments: data
-                                                .popularSeries[pagePosition].id,
-                                          );
-                                        },
-                                        child: CachedNetworkImage(
-                                            imageUrl: GetSeriesDetail
-                                                .backDropImage(data
-                                                    .popularSeries[pagePosition]
-                                                    .backdropPath)),
-                                      ));
-                                });
-                          } else {
-                            return Center(
-                                child: Text(
-                              data.message,
+                      child: BlocBuilder<PopularSeriesBloc, SeriesState>(
+                          builder: (context, state) {
+                        if (state is SeriesLoading) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        } else if (state is SeriesListHasData) {
+                          return PageView.builder(
+                              itemCount: 8,
+                              pageSnapping: true,
+                              itemBuilder: (context, pagePosition) {
+                                return Container(
+                                    margin: const EdgeInsets.symmetric(
+                                        horizontal: 10),
+                                    child: InkWell(
+                                      onTap: () {
+                                        Navigator.pushNamed(
+                                          context,
+                                          DetailPage.routeName,
+                                          arguments:
+                                              state.result[pagePosition].id,
+                                        );
+                                      },
+                                      child: CachedNetworkImage(
+                                          imageUrl:
+                                              GetSeriesDetail.backDropImage(
+                                                  state.result[pagePosition]
+                                                      .backdropPath!)),
+                                    ));
+                              });
+                        } else {
+                          return Center(
+                            child: Text(
+                              'Failed to Get Data',
                               style: kH6,
-                            ));
-                          }
-                        },
-                      ),
+                            ),
+                          );
+                        }
+                      }),
                     ),
                   ],
                 ),
@@ -131,31 +122,31 @@ class _HomePageSeriesState extends State<HomePageSeries> {
                 child: Column(
                   children: [
                     Expanded(
-                      child: Consumer<SeriesListNotifier>(
-                        builder: (context, data, child) {
-                          if (data.onAirState == RequestState.loading) {
-                            return const Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          } else if (data.onAirState == RequestState.loaded) {
-                            return ListView.builder(
-                              key: const Key("detail"),
-                              scrollDirection: Axis.horizontal,
-                              itemBuilder: (context, index) {
-                                final series = data.onAirSeries[index];
-                                return CardSeries(series);
-                              },
-                              itemCount: 5,
-                            );
-                          } else {
-                            return Center(
-                                child: Text(
-                              data.message,
+                      child: BlocBuilder<OnAirSeriesBloc, SeriesState>(
+                          builder: (context, state) {
+                        if (state is SeriesLoading) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        } else if (state is SeriesListHasData) {
+                          return ListView.builder(
+                            key: const Key("detail"),
+                            scrollDirection: Axis.horizontal,
+                            itemCount: state.result.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              Series series = state.result[index];
+                              return CardSeries(series);
+                            },
+                          );
+                        } else {
+                          return Center(
+                            child: Text(
+                              'Failed to Get Data',
                               style: kH6,
-                            ));
-                          }
-                        },
-                      ),
+                            ),
+                          );
+                        }
+                      }),
                     ),
                   ],
                 ),
@@ -171,32 +162,30 @@ class _HomePageSeriesState extends State<HomePageSeries> {
                 child: Column(
                   children: [
                     Expanded(
-                      child: Consumer<SeriesListNotifier>(
-                        builder: (context, data, child) {
-                          if (data.topRatedSeriesState ==
-                              RequestState.loading) {
-                            return const Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          } else if (data.topRatedSeriesState ==
-                              RequestState.loaded) {
-                            return ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemBuilder: (context, index) {
-                                final series = data.topRatedSeries[index];
-                                return CardSeries(series);
-                              },
-                              itemCount: 5,
-                            );
-                          } else {
-                            return Center(
-                                child: Text(
-                              data.message,
+                      child: BlocBuilder<TopRatedSeriesBloc, SeriesState>(
+                          builder: (context, state) {
+                        if (state is SeriesLoading) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        } else if (state is SeriesListHasData) {
+                          return ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: state.result.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              Series series = state.result[index];
+                              return CardSeries(series);
+                            },
+                          );
+                        } else {
+                          return Center(
+                            child: Text(
+                              'Failed to Get Data',
                               style: kH6,
-                            ));
-                          }
-                        },
-                      ),
+                            ),
+                          );
+                        }
+                      }),
                     ),
                   ],
                 ),

@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:movies/domain/entities/movie_detail.dart';
 import 'package:movies/domain/usecases/get_movie_detail.dart';
+import 'package:movies/presentation/bloc/movie_bloc.dart';
 import 'package:movies/presentation/pages/detail_movie_page.dart';
-import 'package:movies/presentation/provider/movie_detail_notifier.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
@@ -111,9 +111,9 @@ class WatchListMovie extends StatelessWidget {
                             ),
                             TextButton(
                               onPressed: () async {
-                                await Provider.of<MovieDetailNotifier>(context,
-                                        listen: false)
-                                    .removeFromWatchlist(movie);
+                                context
+                                    .read<MovieWatchlistBloc>()
+                                    .add(OnRemoveMovieWatchlist(movie));
                                 Navigator.pop(context, 'Confirm');
                               },
                               child: Text('Confirm', style: kBody),

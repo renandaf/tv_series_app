@@ -1,8 +1,9 @@
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:series/domain/entities/series.dart';
+import 'package:series/presentation/bloc/series_bloc.dart';
 import 'package:series/presentation/pages/search_series_page.dart';
-import 'package:series/presentation/provider/on_air_series_provider.dart';
 import 'package:series/presentation/widgets/card_series_list.dart';
 
 class OnAirPage extends StatefulWidget {
@@ -18,9 +19,9 @@ class _OnAirPageState extends State<OnAirPage> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() =>
-        Provider.of<OnAirSeriesNotifier>(context, listen: false)
-            .fetchOnAirSeries());
+    Future.microtask(() {
+      context.read<OnAirSeriesBloc>().add(OnOnAirSeries());
+    });
   }
 
   @override
@@ -48,29 +49,29 @@ class _OnAirPageState extends State<OnAirPage> {
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-          child: Consumer<OnAirSeriesNotifier>(
-            builder: (context, data, child) {
-              if (data.state == RequestState.loading) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              } else if (data.state == RequestState.loaded) {
-                return ListView.builder(
-                  itemBuilder: (context, index) {
-                    final series = data.series[index];
-                    return SeriesList(series, index);
-                  },
-                  itemCount: data.series.length,
-                );
-              } else {
-                return Center(
-                    child: Text(
-                  data.message,
+          child: BlocBuilder<OnAirSeriesBloc, SeriesState>(
+              builder: (context, state) {
+            if (state is SeriesLoading) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (state is SeriesListHasData) {
+              return ListView.builder(
+                itemCount: state.result.length,
+                itemBuilder: (BuildContext context, int index) {
+                  Series series = state.result[index];
+                  return SeriesList(series, index);
+                },
+              );
+            } else {
+              return Center(
+                child: Text(
+                  'Failed to Get Data',
                   style: kH6,
-                ));
-              }
-            },
-          ),
+                ),
+              );
+            }
+          }),
         ));
   }
 }

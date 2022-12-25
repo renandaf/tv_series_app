@@ -1,8 +1,8 @@
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
-import 'package:movies/presentation/provider/movie_search_notifier.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movies/presentation/bloc/movie_bloc.dart';
 import 'package:movies/presentation/widgets/card_movie_list.dart';
-import 'package:provider/provider.dart';
 import 'package:series/series.dart';
 
 class SearchMoviePage extends StatelessWidget {
@@ -43,8 +43,7 @@ class SearchMoviePage extends StatelessWidget {
             children: [
               TextField(
                 onChanged: (query) {
-                  Provider.of<MovieSearchNotifier>(context, listen: false)
-                      .fetchMovieSearch(query);
+                  context.read<SearchMovieBloc>().add(OnQueryChanged(query));
                 },
                 decoration: const InputDecoration(
                   hintText: 'Search title',
@@ -59,14 +58,14 @@ class SearchMoviePage extends StatelessWidget {
                 style: kH6,
               ),
               Expanded(
-                child: Consumer<MovieSearchNotifier>(
-                  builder: (context, data, child) {
-                    if (data.state == RequestState.loading) {
+                child: BlocBuilder<SearchMovieBloc, MovieState>(
+                  builder: (context, state) {
+                    if (state is MovieLoading) {
                       return const Center(
                         child: CircularProgressIndicator(),
                       );
-                    } else if (data.state == RequestState.loaded) {
-                      if (data.searchResult.isEmpty) {
+                    } else if (state is MovieListHasData) {
+                      if (state.result.isEmpty) {
                         return Center(
                             child: Text(
                           "No Data Found",
@@ -75,16 +74,16 @@ class SearchMoviePage extends StatelessWidget {
                       } else {
                         return ListView.builder(
                           itemBuilder: (context, index) {
-                            final movie = data.searchResult[index];
+                            final movie = state.result[index];
                             return MovieList(movie, index);
                           },
-                          itemCount: data.searchResult.length,
+                          itemCount: state.result.length,
                         );
                       }
                     } else {
                       return Center(
                           child: Text(
-                        data.message,
+                        "No Data Found",
                         style: kH6,
                       ));
                     }
