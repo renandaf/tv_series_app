@@ -13,6 +13,7 @@ import 'package:tv_series_app/injection.dart' as injection;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await HttpSSLPinning.init();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );

@@ -1,6 +1,7 @@
 library core;
 
 export 'utils/constants.dart';
+export 'utils/ssl_pinning.dart';
 export 'utils/enum.dart';
 export 'utils/exception.dart';
 export 'utils/failure.dart';

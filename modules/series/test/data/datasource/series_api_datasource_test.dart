@@ -13,6 +13,7 @@ import '../../helpers/test_helpers.mocks.dart';
 import '../../json_reader.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
   const apiKey = 'api_key=cc351050aaaf5d531ad1a96a72cd9db0';
   const baseUrl = 'https://api.themoviedb.org/3';
 
