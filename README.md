@@ -2,7 +2,7 @@
 
 Sebuah aplikasi mobile yang menggunakan bahasa pemrograman **Flutter** untuk menampilkan daftar film dan seri tv. 
 <br>
-Aplikasi ini dibuat sebagai submission dari kelas **Dicoding Flutter Developer Expert**
+Repository ini dibuat sebagai submission akhir dari kelas **Dicoding Flutter Developer Expert**
 
 API : https://developers.themoviedb.org/3
 
