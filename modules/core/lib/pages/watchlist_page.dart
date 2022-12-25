@@ -77,7 +77,7 @@ class _WatchlistPageState extends State<WatchlistPage> with RouteAware {
                 } else {
                   return Center(
                     child: Text(
-                      'Failed to Get Data',
+                      "No data Found",
                       style: kH6,
                     ),
                   );
@@ -109,7 +109,7 @@ class _WatchlistPageState extends State<WatchlistPage> with RouteAware {
                 } else {
                   return Center(
                     child: Text(
-                      'Failed to Get Data',
+                      "No data Found",
                       style: kH6,
                     ),
                   );

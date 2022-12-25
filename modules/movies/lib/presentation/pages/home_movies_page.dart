@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies/domain/entities/movie.dart';
 import 'package:movies/movies.dart';
 import 'package:movies/presentation/widgets/card_movie.dart';
-import 'package:series/series.dart';
 
 class HomePageMovies extends StatefulWidget {
   static const routeName = '/homeMovie';
