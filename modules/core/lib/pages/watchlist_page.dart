@@ -1,5 +1,5 @@
-import 'package:core/constants.dart';
-import 'package:core/utils.dart';
+import 'package:core/utils/constants.dart';
+import 'package:core/utils/utils.dart';
 import 'package:core/widgets/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:movies/movies.dart';
