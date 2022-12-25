@@ -76,7 +76,7 @@ class SearchMoviePage extends StatelessWidget {
                         return ListView.builder(
                           itemBuilder: (context, index) {
                             final movie = data.searchResult[index];
-                            return MovieList(movie);
+                            return MovieList(movie, index);
                           },
                           itemCount: data.searchResult.length,
                         );

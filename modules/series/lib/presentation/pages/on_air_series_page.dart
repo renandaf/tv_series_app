@@ -58,7 +58,7 @@ class _OnAirPageState extends State<OnAirPage> {
                 return ListView.builder(
                   itemBuilder: (context, index) {
                     final series = data.series[index];
-                    return SeriesList(series);
+                    return SeriesList(series, index);
                   },
                   itemCount: data.series.length,
                 );

@@ -39,7 +39,7 @@ class SeriesModel extends Equatable {
         originalLanguage: json["original_language"],
         originalName: json["original_name"],
         overview: json["overview"] ?? "",
-        popularity: json["popularity"],
+        popularity: json["popularity"].toDouble(),
         posterPath: json["poster_path"] ?? "",
         genreIds: List<int>.from(json["genre_ids"].map((x) => x)),
         voteAverage: json["vote_average"] ?? 0,

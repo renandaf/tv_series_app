@@ -58,7 +58,7 @@ class _PopularMoviePageState extends State<PopularMoviePage> {
                 return ListView.builder(
                   itemBuilder: (context, index) {
                     final movie = data.movies[index];
-                    return MovieList(movie);
+                    return MovieList(movie, index);
                   },
                   itemCount: data.movies.length,
                 );

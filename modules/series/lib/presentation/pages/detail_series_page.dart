@@ -41,16 +41,13 @@ class _DetailPageState extends State<DetailPage> {
             return SingleChildScrollView(
               child: Stack(
                 children: [
-                  Container(
+                  CachedNetworkImage(
+                    imageUrl:
+                        GetSeriesDetail.posterImage(data.series.posterPath!),
+                  ),
+                  SizedBox(
                     width: double.infinity,
                     height: size.height * 0.45,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                          image: CachedNetworkImageProvider(
-                              GetSeriesDetail.posterImage(
-                                  data.series.posterPath!)),
-                          fit: BoxFit.cover),
-                    ),
                     child: SafeArea(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
@@ -264,6 +261,7 @@ class _DetailPageState extends State<DetailPage> {
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 5),
                                         child: InkWell(
+                                          key: const Key("season"),
                                           onTap: () {
                                             Navigator.push(
                                                 context,

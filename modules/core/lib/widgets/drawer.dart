@@ -37,6 +37,7 @@ class CustomDrawer extends StatelessWidget {
                 },
               ),
               ListTile(
+                key: const Key("popular_movie"),
                 leading: Icon(
                   Icons.favorite_outline,
                   color: Colors.white.withOpacity(0.9),
@@ -52,6 +53,7 @@ class CustomDrawer extends StatelessWidget {
                 },
               ),
               ListTile(
+                key: const Key("nowplaying_movie"),
                 leading: Icon(
                   Icons.today,
                   color: Colors.white.withOpacity(0.9),
@@ -67,6 +69,7 @@ class CustomDrawer extends StatelessWidget {
                 },
               ),
               ListTile(
+                key: const Key("toprated_movie"),
                 leading: Icon(
                   Icons.star_outline,
                   color: Colors.white.withOpacity(0.9),
@@ -95,6 +98,7 @@ class CustomDrawer extends StatelessWidget {
                 },
               ),
               ListTile(
+                key: const Key("popular_series"),
                 leading: Icon(
                   Icons.favorite_outline,
                   color: Colors.white.withOpacity(0.9),
@@ -110,6 +114,7 @@ class CustomDrawer extends StatelessWidget {
                 },
               ),
               ListTile(
+                key: const Key("onair_series"),
                 leading: Icon(
                   Icons.today,
                   color: Colors.white.withOpacity(0.9),
@@ -124,6 +129,7 @@ class CustomDrawer extends StatelessWidget {
                 },
               ),
               ListTile(
+                key: const Key("toprated_series"),
                 leading: Icon(
                   Icons.star_outline,
                   color: Colors.white.withOpacity(0.9),
@@ -140,6 +146,7 @@ class CustomDrawer extends StatelessWidget {
               ),
               const Divider(),
               ListTile(
+                key: const Key("watchlist"),
                 trailing: const Icon(Icons.arrow_forward_ios),
                 title: Text(
                   'Watchlist',

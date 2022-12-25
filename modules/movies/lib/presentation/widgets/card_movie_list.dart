@@ -8,13 +8,15 @@ import 'package:movies/presentation/pages/detail_movie_page.dart';
 import 'package:sizer/sizer.dart';
 
 class MovieList extends StatelessWidget {
+  final int index;
   final Movie movie;
-  const MovieList(this.movie, {super.key});
+  const MovieList(this.movie, this.index, {super.key});
 
   @override
   Widget build(BuildContext context) {
     return Sizer(builder: (context, orientation, deviceType) {
       return InkWell(
+        key: Key("movie_$index"),
         onTap: () {
           Navigator.pushNamed(context, DetailMoviePage.routeName,
               arguments: movie.id);

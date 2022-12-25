@@ -58,7 +58,7 @@ class _NowPlayingMoviePageState extends State<NowPlayingMoviePage> {
                 return ListView.builder(
                   itemBuilder: (context, index) {
                     final movie = data.movie[index];
-                    return MovieList(movie);
+                    return MovieList(movie, index);
                   },
                   itemCount: data.movie.length,
                 );

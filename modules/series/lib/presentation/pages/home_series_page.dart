@@ -37,6 +37,7 @@ class _HomePageSeriesState extends State<HomePageSeries> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: GlobalKey<ScaffoldState>(),
       drawer: const CustomDrawer(),
       appBar: AppBar(
         centerTitle: true,
@@ -121,6 +122,7 @@ class _HomePageSeriesState extends State<HomePageSeries> {
               ),
               _buildSubHeading(
                   title: 'Airing Today',
+                  key: "on_air_series",
                   onTap: () {
                     Navigator.pushNamed(context, OnAirPage.routeName);
                   }),
@@ -137,6 +139,7 @@ class _HomePageSeriesState extends State<HomePageSeries> {
                             );
                           } else if (data.onAirState == RequestState.loaded) {
                             return ListView.builder(
+                              key: const Key("detail"),
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (context, index) {
                                 final series = data.onAirSeries[index];
@@ -158,6 +161,7 @@ class _HomePageSeriesState extends State<HomePageSeries> {
                 ),
               ),
               _buildSubHeading(
+                  key: "top_rated_series",
                   title: 'Top Rated',
                   onTap: () {
                     Navigator.pushNamed(context, TopRatedPage.routeName);
@@ -204,17 +208,19 @@ class _HomePageSeriesState extends State<HomePageSeries> {
     );
   }
 
-  Row _buildSubHeading({required String title, required Function() onTap}) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          title,
-          style: kH6,
-        ),
-        InkWell(
-          onTap: onTap,
-          child: const Padding(
+  InkWell _buildSubHeading(
+      {required String title, required Function() onTap, required String key}) {
+    return InkWell(
+      key: Key(key),
+      onTap: onTap,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            title,
+            style: kH6,
+          ),
+          const Padding(
             padding: EdgeInsets.all(8.0),
             child: Text(
               'See More',
@@ -223,8 +229,8 @@ class _HomePageSeriesState extends State<HomePageSeries> {
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

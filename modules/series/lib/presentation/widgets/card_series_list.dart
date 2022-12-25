@@ -9,12 +9,14 @@ import 'package:sizer/sizer.dart';
 
 class SeriesList extends StatelessWidget {
   final Series series;
-  const SeriesList(this.series, {super.key});
+  final int index;
+  const SeriesList(this.series, this.index, {super.key});
 
   @override
   Widget build(BuildContext context) {
     return Sizer(builder: (context, orientation, deviceType) {
       return InkWell(
+        key: Key("series_$index"),
         onTap: () {
           Navigator.pushNamed(context, DetailPage.routeName,
               arguments: series.id);
