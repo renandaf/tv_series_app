@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "979398734717",
+    "project_id": "ditonton99",
+    "storage_bucket": "ditonton99.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:979398734717:android:f41689106c55d5416ad214",
+        "android_client_info": {
+          "package_name": "com.example.tv_series_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "979398734717-6d14vf827jvbjoagi5ut15ufpdnhhpkm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBb-ij-mR8ymgu9vgbgHLcaD5ndn2T-FMM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "979398734717-6d14vf827jvbjoagi5ut15ufpdnhhpkm.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "979398734717-kejmg7rc48fmv3rif6a0apt0ipeobvjo.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.tvSeriesApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

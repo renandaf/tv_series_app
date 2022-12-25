@@ -1,13 +1,19 @@
 import 'package:core/core.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies/movies.dart';
 import 'package:series/series.dart';
 import 'package:sizer/sizer.dart';
+import 'package:tv_series_app/firebase_options.dart';
 import 'package:tv_series_app/injection.dart' as injection;
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   injection.init();
   runApp(const MyApp());
 }
