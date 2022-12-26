@@ -1,4 +1,5 @@
 import 'package:core/core.dart';
+import 'package:movies/data/models/movie_detail_model.dart';
 import 'package:movies/data/models/movie_table.dart';
 import 'package:movies/domain/entities/movie.dart';
 import 'package:movies/domain/entities/movie_detail.dart';
@@ -37,6 +38,29 @@ final testMovieDetail = MovieDetail(
   voteAverage: 1,
   voteCount: 1,
 );
+
+const detailMovieModel = MovieDetailResponse(
+    adult: false,
+    backdropPath: 'backdropPath',
+    genres: const [GenreModel(id: 1, name: 'Action')],
+    id: 1,
+    originalTitle: 'originalTitle',
+    overview: 'overview',
+    posterPath: 'posterPath',
+    releaseDate: 'releaseDate',
+    runtime: 120,
+    title: 'title',
+    voteAverage: 1,
+    voteCount: 1,
+    video: false,
+    budget: 1,
+    homepage: 'da',
+    imdbId: 'ad',
+    originalLanguage: 'asd',
+    popularity: 2,
+    revenue: 1,
+    status: 'assf',
+    tagline: 'sad');
 
 final testMovieListDetail = [testMovieDetail];
 

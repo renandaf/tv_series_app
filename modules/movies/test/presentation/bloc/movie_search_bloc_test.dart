@@ -36,6 +36,7 @@ void main() {
       return bloc;
     },
     act: (bloc) => bloc.add(const OnQueryChanged(query)),
+    wait: const Duration(milliseconds: 500),
     expect: () => <MovieState>[
       MovieLoading(),
       MovieListHasData(testMovieList),
@@ -53,6 +54,7 @@ void main() {
       return bloc;
     },
     act: (bloc) => bloc.add(const OnQueryChanged(query)),
+    wait: const Duration(milliseconds: 500),
     expect: () => <MovieState>[
       MovieLoading(),
       const MovieError('Server Failure'),

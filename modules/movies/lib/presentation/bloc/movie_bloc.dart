@@ -26,7 +26,7 @@ class SearchMovieBloc extends Bloc<MovieEvent, MovieState> {
           MovieListHasData(movieData),
         ),
       );
-    });
+    }, transformer: debounce(const Duration(milliseconds: 500)));
   }
 }
 

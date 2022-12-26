@@ -108,6 +108,20 @@ void main() {
           equals(const Left(
               ConnectionFailure('Failed to connect to the network'))));
     });
+    test(
+      'should return SSL failure when an error occurs during SSL verification',
+      () async {
+        when(mockRemoteDataSource.getNowPlayingMovies())
+            .thenThrow(const TlsException('CERTIFICATE_VERIFY_FAILED'));
+
+        final result = await repository.getNowPlayingMovies();
+
+        verify(mockRemoteDataSource.getNowPlayingMovies());
+
+        expect(result,
+            equals(const Left(SSLFailure('CERTIFICATE_VERIFY_FAILED'))));
+      },
+    );
   });
 
   group('Popular Movies', () {
@@ -148,6 +162,20 @@ void main() {
       expect(result,
           const Left(ConnectionFailure('Failed to connect to the network')));
     });
+    test(
+      'should return SSL failure when an error occurs during SSL verification',
+      () async {
+        when(mockRemoteDataSource.getPopularMovies())
+            .thenThrow(const TlsException('CERTIFICATE_VERIFY_FAILED'));
+
+        final result = await repository.getPopularMovies();
+
+        verify(mockRemoteDataSource.getPopularMovies());
+
+        expect(result,
+            equals(const Left(SSLFailure('CERTIFICATE_VERIFY_FAILED'))));
+      },
+    );
   });
 
   group('Top Rated Movies', () {
@@ -187,6 +215,20 @@ void main() {
       expect(result,
           const Left(ConnectionFailure('Failed to connect to the network')));
     });
+    test(
+      'should return SSL failure when an error occurs during SSL verification',
+      () async {
+        when(mockRemoteDataSource.getTopRatedMovies())
+            .thenThrow(const TlsException('CERTIFICATE_VERIFY_FAILED'));
+
+        final result = await repository.getTopRatedMovies();
+
+        verify(mockRemoteDataSource.getTopRatedMovies());
+
+        expect(result,
+            equals(const Left(SSLFailure('CERTIFICATE_VERIFY_FAILED'))));
+      },
+    );
   });
 
   group('Get Movie Detail', () {
@@ -256,6 +298,20 @@ void main() {
           equals(const Left(
               ConnectionFailure('Failed to connect to the network'))));
     });
+    test(
+      'should return SSL failure when an error occurs during SSL verification',
+      () async {
+        when(mockRemoteDataSource.getMovieDetail(tId))
+            .thenThrow(const TlsException('CERTIFICATE_VERIFY_FAILED'));
+
+        final result = await repository.getMovieDetail(tId);
+
+        verify(mockRemoteDataSource.getMovieDetail(tId));
+
+        expect(result,
+            equals(const Left(SSLFailure('CERTIFICATE_VERIFY_FAILED'))));
+      },
+    );
   });
 
   group('Get Movie Recommendations', () {
@@ -304,6 +360,20 @@ void main() {
           equals(const Left(
               ConnectionFailure('Failed to connect to the network'))));
     });
+    test(
+      'should return SSL failure when an error occurs during SSL verification',
+      () async {
+        when(mockRemoteDataSource.getMovieRecommendations(tId))
+            .thenThrow(const TlsException('CERTIFICATE_VERIFY_FAILED'));
+
+        final result = await repository.getMovieRecommendations(tId);
+
+        verify(mockRemoteDataSource.getMovieRecommendations(tId));
+
+        expect(result,
+            equals(const Left(SSLFailure('CERTIFICATE_VERIFY_FAILED'))));
+      },
+    );
   });
 
   group('Seach Movies', () {

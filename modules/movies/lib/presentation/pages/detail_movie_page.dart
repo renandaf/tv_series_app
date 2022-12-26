@@ -306,10 +306,9 @@ class _DetailMoviePageState extends State<DetailMoviePage> {
                                         }
                                       } else {
                                         return Center(
-                                            child: Text(
-                                          "Failed to Get Data",
-                                          style: kBody,
-                                        ));
+                                            child: Text("Failed to Get Data",
+                                                style: kBody,
+                                                key: const Key("error")));
                                       }
                                     },
                                   ),
@@ -322,10 +321,8 @@ class _DetailMoviePageState extends State<DetailMoviePage> {
             );
           } else {
             return Center(
-                child: Text(
-              "Failed to Get Data",
-              style: kBody,
-            ));
+                child: Text("Failed to Get Data",
+                    style: kBody, key: const Key("error")));
           }
         },
       ),

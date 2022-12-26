@@ -7,8 +7,6 @@ export 'presentation/pages/popular_movie_page.dart';
 export 'presentation/pages/search_movie_page.dart';
 export 'presentation/pages/top_rated_movie_page.dart';
 
-export 'presentation/widgets/watchlist_movie.dart';
-
 export 'presentation/bloc/movie_bloc.dart';
 
 export 'data/models/movie_table.dart';

@@ -82,10 +82,8 @@ class SearchMoviePage extends StatelessWidget {
                       }
                     } else {
                       return Center(
-                          child: Text(
-                        "No Data Found",
-                        style: kH6,
-                      ));
+                          child: Text("No Data Found",
+                              style: kH6, key: const Key("error")));
                     }
                   },
                 ),

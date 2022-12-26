@@ -64,10 +64,8 @@ class _NowPlayingMoviePageState extends State<NowPlayingMoviePage> {
               );
             } else {
               return Center(
-                child: Text(
-                  'Failed to Get Data',
-                  style: kH6,
-                ),
+                child: Text('Failed to Get Data',
+                    style: kH6, key: const Key("error")),
               );
             }
           }),
