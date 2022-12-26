@@ -23,6 +23,7 @@ const testMovie = Movie(
 
 final testMovieList = [testMovie];
 final testMovie5 = [testMovie, testMovie, testMovie, testMovie, testMovie];
+final movieDetalList = [MovieDetail];
 
 final testMovieDetail = MovieDetail(
   adult: false,

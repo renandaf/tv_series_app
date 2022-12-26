@@ -47,7 +47,9 @@ class _SeasonPageState extends State<SeasonPage> {
               itemCount: state.result.episodes.length,
               itemBuilder: (BuildContext context, int index) {
                 var episode = state.result.episodes[index];
-                return EpisodeList(episode);
+                return EpisodeList(
+                  episode,
+                );
               },
             );
           } else {

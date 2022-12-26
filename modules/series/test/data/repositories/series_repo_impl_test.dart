@@ -444,52 +444,6 @@ void main() {
     );
   });
 
-  // group('Insert to Watchlist', () {
-  //   test('should return success message when saving successful', () async {
-  //     // arrange
-  //     when(mockLocalDataSource.insertWatchlist(seriesTable))
-  //         .thenAnswer((_) async => 'Added to Watchlist');
-  //     // act
-  //     final result = await repository.addWatchlist(detail);
-
-  //     // assert
-  //     expect(result, Right('Added to Watchlist'));
-  //   });
-
-  //   test('should return DatabaseFailure when saving unsuccessful', () async {
-  //     // arrange
-  //     when(mockLocalDataSource.insertWatchlist(seriesTable))
-  //         .thenThrow(DatabaseException('Failed to add watchlist'));
-  //     // act
-  //     final result = await repository.addWatchlist(detail);
-
-  //     // assert
-  //     expect(result, Left(DatabaseFailure('Failed to add watchlist')));
-  //   });
-  // });
-
-  // group('remove from watchlist', () {
-  //   test('should return success message when removing successful', () async {
-  //     // arrange
-  //     when(mockLocalDataSource.removeWatchlist(seriesTable))
-  //         .thenAnswer((_) async => 'Removed from Watchlist');
-  //     // act
-  //     final result = await repository.removeWatchlist(detail);
-  //     // assert
-  //     expect(result, Right('Removed from Watchlist'));
-  //   });
-
-  //   test('should return DatabaseFailure when removing unsuccessful', () async {
-  //     // arrange
-  //     when(mockLocalDataSource.removeWatchlist(seriesTable))
-  //         .thenThrow(DatabaseException('Failed to remove watchlist'));
-  //     // act
-  //     final result = await repository.removeWatchlist(detail);
-  //     // assert
-  //     expect(result, Left(DatabaseFailure('Failed to remove watchlist')));
-  //   });
-  // });
-
   group('Is Added To WatchList', () {
     test('should return watch status whether data is found', () async {
       // arrange

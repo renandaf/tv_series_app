@@ -7,9 +7,6 @@ export 'presentation/pages/popular_series_page.dart';
 export 'presentation/pages/search_series_page.dart';
 export 'presentation/pages/top_rated_series_page.dart';
 export 'presentation/pages/episode_detail_page.dart';
-
-export 'presentation/widgets/watchlist_card.dart';
-
 export 'presentation/bloc/series_bloc.dart';
 
 export 'data/models/watchlist_model.dart';

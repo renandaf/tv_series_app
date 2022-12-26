@@ -113,17 +113,17 @@ class _HomePageSeriesState extends State<HomePageSeries> {
                 height: 20,
               ),
               _buildSubHeading(
-                  title: 'Airing Today',
-                  key: "on_air_series",
+                  key: "top_rated_series",
+                  title: 'Top Rated',
                   onTap: () {
-                    Navigator.pushNamed(context, OnAirPage.routeName);
+                    Navigator.pushNamed(context, TopRatedPage.routeName);
                   }),
               SizedBox(
                 height: 240,
                 child: Column(
                   children: [
                     Expanded(
-                      child: BlocBuilder<OnAirSeriesBloc, SeriesState>(
+                      child: BlocBuilder<TopRatedSeriesBloc, SeriesState>(
                           builder: (context, state) {
                         if (state is SeriesLoading) {
                           return const Center(
@@ -131,7 +131,6 @@ class _HomePageSeriesState extends State<HomePageSeries> {
                           );
                         } else if (state is SeriesListHasData) {
                           return ListView.builder(
-                            key: const Key("detail"),
                             scrollDirection: Axis.horizontal,
                             itemCount: state.result.length,
                             itemBuilder: (BuildContext context, int index) {
@@ -154,17 +153,17 @@ class _HomePageSeriesState extends State<HomePageSeries> {
                 ),
               ),
               _buildSubHeading(
-                  key: "top_rated_series",
-                  title: 'Top Rated',
+                  title: 'Airing Today',
+                  key: "on_air_series",
                   onTap: () {
-                    Navigator.pushNamed(context, TopRatedPage.routeName);
+                    Navigator.pushNamed(context, OnAirPage.routeName);
                   }),
               SizedBox(
                 height: 240,
                 child: Column(
                   children: [
                     Expanded(
-                      child: BlocBuilder<TopRatedSeriesBloc, SeriesState>(
+                      child: BlocBuilder<OnAirSeriesBloc, SeriesState>(
                           builder: (context, state) {
                         if (state is SeriesLoading) {
                           return const Center(
@@ -172,6 +171,7 @@ class _HomePageSeriesState extends State<HomePageSeries> {
                           );
                         } else if (state is SeriesListHasData) {
                           return ListView.builder(
+                            key: const Key("detail"),
                             scrollDirection: Axis.horizontal,
                             itemCount: state.result.length,
                             itemBuilder: (BuildContext context, int index) {
