@@ -23,6 +23,65 @@ void main() {
     );
   });
 
+  group('Season detail', () {
+    test(
+        'should return remote data when the call to remote data source is successful',
+        () async {
+      // arrange
+      when(mockRemoteDataSource.getSeasonDetail(1, 1))
+          .thenAnswer((_) async => seasonModel);
+      // act
+      final result = await repository.getSeasonDetail(1, 1);
+      // assert
+      verify(mockRemoteDataSource.getSeasonDetail(1, 1));
+      /* workaround to test List in Right. Issue: https://github.com/spebbe/dartz/issues/80 */
+      expect(result, equals(const Right(testSeason)));
+    });
+
+    test(
+        'should return server failure when the call to remote data source is unsuccessful',
+        () async {
+      // arrange
+      when(mockRemoteDataSource.getSeasonDetail(1, 1))
+          .thenThrow(ServerException());
+      // act
+      final result = await repository.getSeasonDetail(1, 1);
+      // assert
+      verify(mockRemoteDataSource.getSeasonDetail(1, 1));
+      expect(result, equals(const Left(ServerFailure(''))));
+    });
+
+    test(
+        'should return connection failure when the device is not connected to internet',
+        () async {
+      // arrange
+      when(mockRemoteDataSource.getSeasonDetail(1, 1))
+          .thenThrow(const SocketException('Failed to connect to the network'));
+      // act
+      final result = await repository.getSeasonDetail(1, 1);
+      // assert
+      verify(mockRemoteDataSource.getSeasonDetail(1, 1));
+      expect(
+          result,
+          equals(const Left(
+              ConnectionFailure('Failed to connect to the network'))));
+    });
+
+    test(
+      'should return SSL failure when an error occurs during SSL verification',
+      () async {
+        when(mockRemoteDataSource.getSeasonDetail(1, 1))
+            .thenThrow(const TlsException('CERTIFICATE_VERIFY_FAILED'));
+
+        final result = await repository.getSeasonDetail(1, 1);
+
+        verify(mockRemoteDataSource.getSeasonDetail(1, 1));
+
+        expect(result,
+            equals(const Left(SSLFailure('CERTIFICATE_VERIFY_FAILED'))));
+      },
+    );
+  });
   group('On Air Series', () {
     test(
         'should return remote data when the call to remote data source is successful',
@@ -66,6 +125,21 @@ void main() {
           equals(const Left(
               ConnectionFailure('Failed to connect to the network'))));
     });
+
+    test(
+      'should return SSL failure when an error occurs during SSL verification',
+      () async {
+        when(mockRemoteDataSource.getOnAirSeries())
+            .thenThrow(const TlsException('CERTIFICATE_VERIFY_FAILED'));
+
+        final result = await repository.getOnAirSeries();
+
+        verify(mockRemoteDataSource.getOnAirSeries());
+
+        expect(result,
+            equals(const Left(SSLFailure('CERTIFICATE_VERIFY_FAILED'))));
+      },
+    );
   });
 
   group('Popular Series', () {
@@ -112,6 +186,20 @@ void main() {
           equals(const Left(
               ConnectionFailure('Failed to connect to the network'))));
     });
+    test(
+      'should return SSL failure when an error occurs during SSL verification',
+      () async {
+        when(mockRemoteDataSource.getPopularSeries())
+            .thenThrow(const TlsException('CERTIFICATE_VERIFY_FAILED'));
+
+        final result = await repository.getPopularSeries();
+
+        verify(mockRemoteDataSource.getPopularSeries());
+
+        expect(result,
+            equals(const Left(SSLFailure('CERTIFICATE_VERIFY_FAILED'))));
+      },
+    );
   });
 
   group('Top Rated Series', () {
@@ -158,6 +246,20 @@ void main() {
           equals(const Left(
               ConnectionFailure('Failed to connect to the network'))));
     });
+    test(
+      'should return SSL failure when an error occurs during SSL verification',
+      () async {
+        when(mockRemoteDataSource.getTopRatedSeries())
+            .thenThrow(const TlsException('CERTIFICATE_VERIFY_FAILED'));
+
+        final result = await repository.getTopRatedSeries();
+
+        verify(mockRemoteDataSource.getTopRatedSeries());
+
+        expect(result,
+            equals(const Left(SSLFailure('CERTIFICATE_VERIFY_FAILED'))));
+      },
+    );
   });
 
   group('Recomended Series', () {
@@ -205,6 +307,20 @@ void main() {
           equals(const Left(
               ConnectionFailure('Failed to connect to the network'))));
     });
+    test(
+      'should return SSL failure when an error occurs during SSL verification',
+      () async {
+        when(mockRemoteDataSource.getSeriesRecommendations(id))
+            .thenThrow(const TlsException('CERTIFICATE_VERIFY_FAILED'));
+
+        final result = await repository.getSeriesRecommendations(id);
+
+        verify(mockRemoteDataSource.getSeriesRecommendations(id));
+
+        expect(result,
+            equals(const Left(SSLFailure('CERTIFICATE_VERIFY_FAILED'))));
+      },
+    );
   });
 
   group('Series Detail', () {
@@ -251,6 +367,20 @@ void main() {
           equals(const Left(
               ConnectionFailure('Failed to connect to the network'))));
     });
+    test(
+      'should return SSL failure when an error occurs during SSL verification',
+      () async {
+        when(mockRemoteDataSource.getSeriesDetail(id))
+            .thenThrow(const TlsException('CERTIFICATE_VERIFY_FAILED'));
+
+        final result = await repository.getSeriesDetail(id);
+
+        verify(mockRemoteDataSource.getSeriesDetail(id));
+
+        expect(result,
+            equals(const Left(SSLFailure('CERTIFICATE_VERIFY_FAILED'))));
+      },
+    );
   });
 
   group('Search Series', () {
@@ -298,6 +428,20 @@ void main() {
           equals(const Left(
               ConnectionFailure('Failed to connect to the network'))));
     });
+    test(
+      'should return SSL failure when an error occurs during SSL verification',
+      () async {
+        when(mockRemoteDataSource.searchSeries(query))
+            .thenThrow(const TlsException('CERTIFICATE_VERIFY_FAILED'));
+
+        final result = await repository.searchSeries(query);
+
+        verify(mockRemoteDataSource.searchSeries(query));
+
+        expect(result,
+            equals(const Left(SSLFailure('CERTIFICATE_VERIFY_FAILED'))));
+      },
+    );
   });
 
   // group('Insert to Watchlist', () {

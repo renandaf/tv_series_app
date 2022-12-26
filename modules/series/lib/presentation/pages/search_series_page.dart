@@ -88,6 +88,7 @@ class SearchPage extends StatelessWidget {
                           child: Text(
                         "No Data Found",
                         style: kH6,
+                        key: const Key("error"),
                       ));
                     }
                   },

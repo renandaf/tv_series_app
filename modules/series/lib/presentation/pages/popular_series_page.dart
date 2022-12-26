@@ -67,6 +67,7 @@ class _PopularPageState extends State<PopularPage> {
                 child: Text(
                   'Failed to Get Data',
                   style: kH6,
+                  key: const Key("error"),
                 ),
               );
             }

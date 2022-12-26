@@ -6,6 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mockito/mockito.dart';
 import 'package:series/data/datasource/series_api_datasource.dart';
+import 'package:series/data/models/season_detail.dart';
 import 'package:series/data/models/series_detail_model.dart';
 import 'package:series/data/models/series_response.dart';
 
@@ -152,6 +153,41 @@ void main() {
           .thenAnswer((_) async => http.Response('Not Found', 404));
       // act
       final call = dataSource.getSeriesDetail(id);
+      // assert
+      expect(() => call, throwsA(isA<ServerException>()));
+    });
+  });
+
+  group('get Season detail', () {
+    const id = 1;
+    const season = 1;
+    final tSeason =
+        SeasonDetail.fromJson(json.decode(readJson('dummy_data/season.json')));
+
+    test('should return Season detail when the response code is 200', () async {
+      // arrange
+      when(mockHttpClient
+              .get(Uri.parse('$baseUrl/tv/$id/season/$season?$apiKey')))
+          .thenAnswer((_) async =>
+              http.Response(readJson('dummy_data/season.json'), 200, headers: {
+                HttpHeaders.contentTypeHeader:
+                    'application/json; charset=utf-8',
+              }));
+      // act
+      final result = await dataSource.getSeasonDetail(id, season);
+      // assert
+      expect(result, equals(tSeason));
+    });
+
+    test(
+        'should throw a ServerException when the response code is 404 or other',
+        () async {
+      // arrange
+      when(mockHttpClient
+              .get(Uri.parse('$baseUrl/tv/$id/season/$season?$apiKey')))
+          .thenAnswer((_) async => http.Response('Not Found', 404));
+      // act
+      final call = dataSource.getSeasonDetail(id, season);
       // assert
       expect(() => call, throwsA(isA<ServerException>()));
     });

@@ -36,6 +36,7 @@ void main() {
       return bloc;
     },
     act: (bloc) => bloc.add(const OnQuerySeriesChanged(query)),
+    wait: const Duration(milliseconds: 500),
     expect: () => <SeriesState>[
       SeriesLoading(),
       SeriesListHasData(seriesList),
@@ -53,6 +54,7 @@ void main() {
       return bloc;
     },
     act: (bloc) => bloc.add(const OnQuerySeriesChanged(query)),
+    wait: const Duration(milliseconds: 500),
     expect: () => <SeriesState>[
       SeriesLoading(),
       const SeriesError('Server Failure'),

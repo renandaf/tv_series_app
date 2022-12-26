@@ -68,6 +68,7 @@ class _OnAirPageState extends State<OnAirPage> {
                 child: Text(
                   'Failed to Get Data',
                   style: kH6,
+                  key: const Key("error"),
                 ),
               );
             }

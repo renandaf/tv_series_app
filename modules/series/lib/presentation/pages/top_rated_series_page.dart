@@ -68,6 +68,7 @@ class _TopRatedPageState extends State<TopRatedPage> {
                 child: Text(
                   'Failed to Get Data',
                   style: kH6,
+                  key: const Key("error"),
                 ),
               );
             }

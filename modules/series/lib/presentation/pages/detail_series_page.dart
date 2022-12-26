@@ -210,6 +210,7 @@ class _DetailPageState extends State<DetailPage> {
                                           ));
                                     } else {
                                       return ElevatedButton(
+                                          key: const Key("error"),
                                           style: ButtonStyle(
                                               padding: MaterialStateProperty
                                                   .all<EdgeInsets>(
@@ -378,6 +379,7 @@ class _DetailPageState extends State<DetailPage> {
                                             child: Text(
                                           "Failed to Get Data",
                                           style: kBody,
+                                          key: const Key("error"),
                                         ));
                                       }
                                     },
@@ -394,6 +396,7 @@ class _DetailPageState extends State<DetailPage> {
                 child: Text(
               "Failed to Get Data",
               style: kBody,
+              key: const Key("error"),
             ));
           }
         },

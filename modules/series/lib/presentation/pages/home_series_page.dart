@@ -100,6 +100,7 @@ class _HomePageSeriesState extends State<HomePageSeries> {
                             child: Text(
                               'Failed to Get Data',
                               style: kH6,
+                              key: const Key("error"),
                             ),
                           );
                         }
@@ -143,6 +144,7 @@ class _HomePageSeriesState extends State<HomePageSeries> {
                             child: Text(
                               'Failed to Get Data',
                               style: kH6,
+                              key: const Key("error"),
                             ),
                           );
                         }
@@ -182,6 +184,7 @@ class _HomePageSeriesState extends State<HomePageSeries> {
                             child: Text(
                               'Failed to Get Data',
                               style: kH6,
+                              key: const Key("error"),
                             ),
                           );
                         }

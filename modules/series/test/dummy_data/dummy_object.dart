@@ -1,4 +1,6 @@
 import 'package:core/core.dart';
+import 'package:series/data/models/episode_model.dart';
+import 'package:series/data/models/season_detail.dart';
 import 'package:series/data/models/series_detail_model.dart';
 import 'package:series/data/models/series_model.dart';
 import 'package:series/data/models/watchlist_model.dart';
@@ -113,6 +115,16 @@ final detail = Detail(
     voteAverage: 8.3,
     voteCount: 11504);
 
+const seasonModel = SeasonDetail(
+    id: "1",
+    airDate: "1",
+    episodes: <EpisodeModel>[],
+    name: "name",
+    overview: "overview",
+    seasonDetailId: 1,
+    posterPath: "posterPath",
+    seasonNumber: 1);
+
 const testSeason = Season(
     id: "1",
     airDate: "1",
@@ -122,6 +134,30 @@ const testSeason = Season(
     seasonDetailId: 1,
     posterPath: "posterPath",
     seasonNumber: 1);
+
+const episodeModel = EpisodeModel(
+    airDate: "2011-04-17",
+    episodeNumber: 1,
+    id: 63056,
+    name: "Winter Is Coming",
+    overview: "Jon Arryn, the Hand of the King, is n exchange for an army.",
+    productionCode: "101",
+    seasonNumber: 1,
+    stillPath: "/xIfvIM7YgkADTrqp23rm3CLaOVQ.jpg",
+    voteAverage: 7.7,
+    voteCount: 179);
+
+const testEpisode = Episode(
+    airDate: "2011-04-17",
+    episodeNumber: 1,
+    id: 63056,
+    name: "Winter Is Coming",
+    overview: "Jon Arryn, the Hand of the King, is n exchange for an army.",
+    productionCode: "101",
+    seasonNumber: 1,
+    stillPath: "/xIfvIM7YgkADTrqp23rm3CLaOVQ.jpg",
+    voteAverage: 7.7,
+    voteCount: 179);
 
 final genres = <Genre>[
   const Genre(id: 10765, name: "Sci-Fi & Fantasy"),

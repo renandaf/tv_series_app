@@ -55,6 +55,7 @@ class _SeasonPageState extends State<SeasonPage> {
               child: Text(
                 'Failed to Get Data',
                 style: kH6,
+                key: const Key("error"),
               ),
             );
           }
