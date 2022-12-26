@@ -4,13 +4,14 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i8;
-import 'dart:convert' as _i17;
-import 'dart:typed_data' as _i18;
+import 'dart:convert' as _i18;
+import 'dart:typed_data' as _i19;
 
 import 'package:core/core.dart' as _i9;
 import 'package:dartz/dartz.dart' as _i2;
 import 'package:http/http.dart' as _i6;
-import 'package:http/io_client.dart' as _i5;
+import 'package:http/src/io_client.dart' as _i17;
+import 'package:http/src/io_streamed_response.dart' as _i5;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:movies/movies.dart' as _i16;
 import 'package:series/data/models/season_detail.dart' as _i4;
@@ -515,7 +516,7 @@ class MockDatabaseHelper extends _i1.Mock implements _i9.DatabaseHelper {
 /// A class which mocks [IOClient].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockHttpClient extends _i1.Mock implements _i5.IOClient {
+class MockHttpClient extends _i1.Mock implements _i17.IOClient {
   MockHttpClient() {
     _i1.throwOnMissingStub(this);
   }
@@ -589,7 +590,7 @@ class MockHttpClient extends _i1.Mock implements _i5.IOClient {
     Uri? url, {
     Map<String, String>? headers,
     Object? body,
-    _i17.Encoding? encoding,
+    _i18.Encoding? encoding,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -619,7 +620,7 @@ class MockHttpClient extends _i1.Mock implements _i5.IOClient {
     Uri? url, {
     Map<String, String>? headers,
     Object? body,
-    _i17.Encoding? encoding,
+    _i18.Encoding? encoding,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -649,7 +650,7 @@ class MockHttpClient extends _i1.Mock implements _i5.IOClient {
     Uri? url, {
     Map<String, String>? headers,
     Object? body,
-    _i17.Encoding? encoding,
+    _i18.Encoding? encoding,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -679,7 +680,7 @@ class MockHttpClient extends _i1.Mock implements _i5.IOClient {
     Uri? url, {
     Map<String, String>? headers,
     Object? body,
-    _i17.Encoding? encoding,
+    _i18.Encoding? encoding,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -718,7 +719,7 @@ class MockHttpClient extends _i1.Mock implements _i5.IOClient {
         returnValue: _i8.Future<String>.value(''),
       ) as _i8.Future<String>);
   @override
-  _i8.Future<_i18.Uint8List> readBytes(
+  _i8.Future<_i19.Uint8List> readBytes(
     Uri? url, {
     Map<String, String>? headers,
   }) =>
@@ -728,6 +729,6 @@ class MockHttpClient extends _i1.Mock implements _i5.IOClient {
           [url],
           {#headers: headers},
         ),
-        returnValue: _i8.Future<_i18.Uint8List>.value(_i18.Uint8List(0)),
-      ) as _i8.Future<_i18.Uint8List>);
+        returnValue: _i8.Future<_i19.Uint8List>.value(_i19.Uint8List(0)),
+      ) as _i8.Future<_i19.Uint8List>);
 }

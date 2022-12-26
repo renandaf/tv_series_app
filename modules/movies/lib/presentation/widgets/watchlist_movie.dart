@@ -1,12 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:movies/domain/entities/movie_detail.dart';
 import 'package:movies/domain/usecases/get_movie_detail.dart';
 import 'package:movies/presentation/bloc/movie_bloc.dart';
 import 'package:movies/presentation/pages/detail_movie_page.dart';
-import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 class WatchListMovie extends StatelessWidget {

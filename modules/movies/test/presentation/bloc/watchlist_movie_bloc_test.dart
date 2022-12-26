@@ -9,7 +9,6 @@ import 'package:movies/domain/usecases/get_watchlist_movies.dart';
 import 'package:movies/domain/usecases/remove_movie_watchlist.dart';
 import 'package:movies/domain/usecases/save_watchlist.dart';
 import 'package:movies/presentation/bloc/movie_bloc.dart';
-import 'package:series/domain/usecases/add_watchlist.dart';
 
 import '../../dummy_data/dummy_object.dart';
 import 'watchlist_movie_bloc_test.mocks.dart';

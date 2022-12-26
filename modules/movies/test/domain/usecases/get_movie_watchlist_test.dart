@@ -2,7 +2,6 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:movies/domain/usecases/get_watchlist_movies.dart';
-import 'package:series/domain/usecases/get_watchlist.dart';
 
 import '../../dummy_data/dummy_object.dart';
 import '../../helpers/test_helpers.mocks.dart';

@@ -3,6 +3,8 @@ import 'package:series/data/models/series_detail_model.dart';
 import 'package:series/data/models/series_model.dart';
 import 'package:series/data/models/watchlist_model.dart';
 import 'package:series/domain/entities/detail.dart';
+import 'package:series/domain/entities/episode.dart';
+import 'package:series/domain/entities/season.dart';
 import 'package:series/domain/entities/series.dart';
 
 const seriesTable = SeriesTable(
@@ -110,6 +112,16 @@ final detail = Detail(
     type: "Scripted",
     voteAverage: 8.3,
     voteCount: 11504);
+
+const testSeason = Season(
+    id: "1",
+    airDate: "1",
+    episodes: <Episode>[],
+    name: "name",
+    overview: "overview",
+    seasonDetailId: 1,
+    posterPath: "posterPath",
+    seasonNumber: 1);
 
 final genres = <Genre>[
   const Genre(id: 10765, name: "Sci-Fi & Fantasy"),

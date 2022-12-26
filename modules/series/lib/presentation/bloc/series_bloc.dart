@@ -33,19 +33,21 @@ class SeasonDetailBloc extends Bloc<SeriesEvent, SeriesState> {
 class SearchSeriesBloc extends Bloc<SeriesEvent, SeriesState> {
   final SearchSeries searchSeries;
   SearchSeriesBloc(this.searchSeries) : super(SeriesEmpty()) {
-    on<OnQuerySeriesChanged>((event, emit) async {
-      final query = event.query;
-      emit(SeriesLoading());
-      final searchSeriessResult = await searchSeries.execute(query);
-      searchSeriessResult.fold(
-        (failure) => emit(
-          SeriesError(failure.message),
-        ),
-        (seriesData) => emit(
-          SeriesListHasData(seriesData),
-        ),
-      );
-    }, transformer: debounce(const Duration(milliseconds: 500)));
+    on<OnQuerySeriesChanged>(
+      (event, emit) async {
+        final query = event.query;
+        emit(SeriesLoading());
+        final searchSeriessResult = await searchSeries.execute(query);
+        searchSeriessResult.fold(
+          (failure) => emit(
+            SeriesError(failure.message),
+          ),
+          (seriesData) => emit(
+            SeriesListHasData(seriesData),
+          ),
+        );
+      },
+    );
   }
 }
 
