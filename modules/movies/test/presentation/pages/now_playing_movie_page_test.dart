@@ -4,9 +4,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:movies/movies.dart';
-import 'package:movies/presentation/bloc/movie_bloc.dart';
-import 'package:series/presentation/bloc/series_bloc.dart';
-import 'package:series/presentation/pages/on_air_series_page.dart';
 
 import '../../dummy_data/dummy_object.dart';
 import 'now_playing_movie_page_test.mocks.dart';

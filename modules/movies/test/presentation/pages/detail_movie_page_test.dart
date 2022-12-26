@@ -5,7 +5,6 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:movies/domain/entities/movie.dart';
 import 'package:movies/movies.dart';
-import 'package:series/presentation/pages/detail_series_page.dart';
 
 import '../../dummy_data/dummy_object.dart';
 import 'detail_movie_page_test.mocks.dart';

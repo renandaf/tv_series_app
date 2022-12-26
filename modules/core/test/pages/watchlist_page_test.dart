@@ -4,10 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:movies/domain/entities/movie.dart';
-import 'package:movies/domain/entities/movie_detail.dart';
 import 'package:movies/movies.dart';
-import 'package:series/domain/entities/detail.dart';
 import 'package:series/presentation/bloc/series_bloc.dart';
 
 import '../dummy_object.dart';

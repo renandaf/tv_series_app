@@ -5,9 +5,6 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:movies/movies.dart';
 import 'package:movies/presentation/widgets/card_movie_list.dart';
-import 'package:series/presentation/bloc/series_bloc.dart';
-import 'package:series/presentation/pages/popular_series_page.dart';
-import 'package:series/presentation/widgets/card_series_list.dart';
 
 import '../../dummy_data/dummy_object.dart';
 import 'popular_movie_page_test.mocks.dart';

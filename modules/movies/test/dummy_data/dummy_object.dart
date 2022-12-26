@@ -43,7 +43,7 @@ final testMovieDetail = MovieDetail(
 const detailMovieModel = MovieDetailResponse(
     adult: false,
     backdropPath: 'backdropPath',
-    genres: const [GenreModel(id: 1, name: 'Action')],
+    genres: [GenreModel(id: 1, name: 'Action')],
     id: 1,
     originalTitle: 'originalTitle',
     overview: 'overview',
