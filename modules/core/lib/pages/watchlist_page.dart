@@ -1,4 +1,6 @@
 import 'package:core/core.dart';
+import 'package:core/widgets/watchlist_card.dart';
+import 'package:core/widgets/watchlist_movie.dart';
 import 'package:flutter/material.dart';
 import 'package:movies/movies.dart';
 import 'package:series/series.dart';
@@ -76,10 +78,8 @@ class _WatchlistPageState extends State<WatchlistPage> with RouteAware {
                   }
                 } else {
                   return Center(
-                    child: Text(
-                      "No data Found",
-                      style: kH6,
-                    ),
+                    child: Text("No data Found",
+                        style: kH6, key: const Key("error")),
                   );
                 }
               }),
@@ -108,10 +108,8 @@ class _WatchlistPageState extends State<WatchlistPage> with RouteAware {
                   }
                 } else {
                   return Center(
-                    child: Text(
-                      "No data Found",
-                      style: kH6,
-                    ),
+                    child: Text("No data Found",
+                        style: kH6, key: const Key("error")),
                   );
                 }
               }),
