@@ -7,7 +7,8 @@ import 'package:series/presentation/pages/detail_series_page.dart';
 
 class CardSeries extends StatelessWidget {
   final Series series;
-  const CardSeries(this.series, {super.key});
+  final int page;
+  const CardSeries(this.series, this.page, {super.key});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -15,11 +16,19 @@ class CardSeries extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 8),
       child: InkWell(
         onTap: () {
-          Navigator.pushNamed(
-            context,
-            DetailPage.routeName,
-            arguments: series.id,
-          );
+          if (page == 1) {
+            Navigator.pushReplacementNamed(
+              context,
+              DetailPage.routeName,
+              arguments: series.id,
+            );
+          } else {
+            Navigator.pushNamed(
+              context,
+              DetailPage.routeName,
+              arguments: series.id,
+            );
+          }
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

@@ -299,7 +299,7 @@ class _DetailMoviePageState extends State<DetailMoviePage> {
                                             scrollDirection: Axis.horizontal,
                                             itemBuilder: (context, index) {
                                               final movie = recom.result[index];
-                                              return CardMovie(movie);
+                                              return CardMovie(movie, 1);
                                             },
                                             itemCount: 5,
                                           );

@@ -7,7 +7,8 @@ import 'package:movies/presentation/pages/detail_movie_page.dart';
 
 class CardMovie extends StatelessWidget {
   final Movie movie;
-  const CardMovie(this.movie, {super.key});
+  final int page;
+  const CardMovie(this.movie, this.page, {super.key});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -15,11 +16,19 @@ class CardMovie extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 8),
       child: InkWell(
         onTap: () {
-          Navigator.pushNamed(
-            context,
-            DetailMoviePage.routeName,
-            arguments: movie.id,
-          );
+          if (page == 1) {
+            Navigator.pushReplacementNamed(
+              context,
+              DetailMoviePage.routeName,
+              arguments: movie.id,
+            );
+          } else {
+            Navigator.pushNamed(
+              context,
+              DetailMoviePage.routeName,
+              arguments: movie.id,
+            );
+          }
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

@@ -41,8 +41,8 @@ class _DetailPageState extends State<DetailPage> {
               child: CircularProgressIndicator(),
             );
           } else if (state is DetailHasData) {
-            return SingleChildScrollView(
-              child: Stack(
+            return ListView(key: const Key("scroll"), children: [
+              Stack(
                 children: [
                   CachedNetworkImage(
                     imageUrl:
@@ -293,7 +293,7 @@ class _DetailPageState extends State<DetailPage> {
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 5),
                                         child: InkWell(
-                                          key: const Key("season"),
+                                          key: Key("season_$index"),
                                           onTap: () {
                                             Navigator.push(
                                                 context,
@@ -369,7 +369,7 @@ class _DetailPageState extends State<DetailPage> {
                                             itemBuilder: (context, index) {
                                               final series =
                                                   recom.result[index];
-                                              return CardSeries(series);
+                                              return CardSeries(series, 1);
                                             },
                                             itemCount: 5,
                                           );
@@ -390,7 +390,7 @@ class _DetailPageState extends State<DetailPage> {
                   ),
                 ],
               ),
-            );
+            ]);
           } else {
             return Center(
                 child: Text(

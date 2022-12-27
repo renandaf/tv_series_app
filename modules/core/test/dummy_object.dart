@@ -1,4 +1,5 @@
 import 'package:core/entities/genre.dart';
+import 'package:core/model/genre_model.dart';
 import 'package:movies/domain/entities/movie_detail.dart';
 import 'package:series/domain/entities/detail.dart';
 
@@ -53,3 +54,6 @@ final genres = <Genre>[
   const Genre(id: 10759, name: "Action & Adventure"),
   const Genre(id: 9648, name: "Mystery")
 ];
+
+const genreModel = GenreModel(id: 10765, name: "Sci-Fi & Fantasy");
+const genre = Genre(id: 10765, name: "Sci-Fi & Fantasy");

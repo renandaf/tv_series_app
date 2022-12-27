@@ -124,7 +124,7 @@ void main() {
           await tester.pumpAndSettle();
           expect(find.byType(TopRatedPage), findsOneWidget);
 
-          await tester.tap(find.byType(ListView));
+          await tester.tap(find.byKey(const Key('series_${1}')));
           await tester.pumpAndSettle();
           expect(find.byType(DetailPage), findsOneWidget);
 
@@ -132,7 +132,10 @@ void main() {
           await tester.pumpAndSettle();
           expect(find.text("Remove from Watchlist"), findsOneWidget);
 
-          await tester.tap(find.byKey(const Key("season")));
+          await tester.drag(
+              find.byKey(const Key('scroll')), const Offset(0.0, -200));
+          await tester.pump();
+          await tester.tap(find.byKey(const Key("season_${0}")));
           await tester.pumpAndSettle();
           expect(find.byType(SeasonPage), findsOneWidget);
           expect(find.byType(EpisodeList), findsWidgets);
@@ -141,6 +144,9 @@ void main() {
           await tester.pumpAndSettle();
           expect(find.byType(DetailPage), findsOneWidget);
 
+          await tester.drag(
+              find.byKey(const Key('scroll')), const Offset(0.0, 200));
+          await tester.pump();
           await tester.tap(find.byIcon(Icons.arrow_back_ios));
           await tester.pumpAndSettle();
           expect(find.byType(TopRatedPage), findsOneWidget);

@@ -135,7 +135,7 @@ class _HomePageSeriesState extends State<HomePageSeries> {
                             itemCount: state.result.length,
                             itemBuilder: (BuildContext context, int index) {
                               Series series = state.result[index];
-                              return CardSeries(series);
+                              return CardSeries(series, 0);
                             },
                           );
                         } else {
@@ -176,7 +176,7 @@ class _HomePageSeriesState extends State<HomePageSeries> {
                             itemCount: state.result.length,
                             itemBuilder: (BuildContext context, int index) {
                               Series series = state.result[index];
-                              return CardSeries(series);
+                              return CardSeries(series, 0);
                             },
                           );
                         } else {

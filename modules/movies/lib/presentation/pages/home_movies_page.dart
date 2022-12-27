@@ -130,7 +130,7 @@ class _HomePageMoviesState extends State<HomePageMovies> {
                             itemCount: state.result.length,
                             itemBuilder: (BuildContext context, int index) {
                               Movie movie = state.result[index];
-                              return CardMovie(movie);
+                              return CardMovie(movie, 0);
                             },
                           );
                         } else {
@@ -166,7 +166,7 @@ class _HomePageMoviesState extends State<HomePageMovies> {
                             itemCount: state.result.length,
                             itemBuilder: (BuildContext context, int index) {
                               Movie movie = state.result[index];
-                              return CardMovie(movie);
+                              return CardMovie(movie, 0);
                             },
                           );
                         } else {
